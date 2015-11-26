@@ -1,18 +1,16 @@
-<?php 
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Master extends CI_Controller {
-        
+class Kawasan extends CI_Controller {
+
 	public function __construct()
 	{
 		parent::__construct();
 		if (!$this->session->userdata('is_logged_in')) {
 			redirect(base_url('index.php/home'));
 		}
-		header('Access-Control-Allow-Origin: *');
-    	header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
+		$this->load->model('model_kawasan');
 		$this->load->model('model_master');
 	}
-
 
 	public function get_nilai_kumuh($nilai=false, $nama_tabel=false)
 	{
@@ -52,14 +50,17 @@ class Master extends CI_Controller {
 		//$this->output->set_content_type('application/json')->set_output(json_encode($output));
 		return $output['nilai'];
 	}
-
-
-	
-	public function get_nilai_rt($id_rt=false)
+	public function get_nilai_kawasan($id_kawasan=false)
 	{
 
-		$data['data'] = $this->model_master->get_kawasan_by_id($id_rt);
+		$data['data'] = $this->model_master->get_kawasan($id_kawasan);
+		if($data['data']){
 		$i=0;
+		$kawasan['nama_kawasan'] = $data['data'][0]['nama_kawasan'];
+		$kawasan['sk_penetapan'] = $data['data'][0]['sk_penetapan'];
+		$kawasan['nilai_total'] = 0;
+		$kawasan['nilai_pertimbangan_total'] = 0;
+		$kawasan['nilai_legal_total'] = 0;
 
 		foreach ($data['data'] as $item) {
 			//tingkat kekumuhan
@@ -95,6 +96,7 @@ class Master extends CI_Controller {
 			}else if($data['data'][$i]['nilai'] >= 55){
 					$data['data'][$i]['tingkat'] = "Kumuh Berat";				
 			}
+			$kawasan['nilai_total'] = $kawasan['nilai_total'] + $data['data'][$i]['nilai'];
 		
 			//end
 			//prioritas penaganan
@@ -113,6 +115,7 @@ class Master extends CI_Controller {
 			}else if($data['data'][$i]['nilai_pertimbangan'] >= 25){
 					$data['data'][$i]['pertimbangan'] = "Tinggi";				
 			}
+				$kawasan['nilai_pertimbangan_total'] = $kawasan['nilai_pertimbangan_total'] + $data['data'][$i]['nilai_pertimbangan'];
 		
 			//end
 			// legalitas
@@ -138,6 +141,7 @@ class Master extends CI_Controller {
 			}else{
 				$data['data'][$i]['legal'] = "ILEGAL";
 			}
+			$kawasan['nilai_legal_total'] = $kawasan['nilai_legal_total'] + $data['data'][$i]['nilai_legal'];
 			//end
 			//nilai total
 			if($data['data'][$i]['tingkat'] == "Kumuh Berat" && $data['data'][$i]['pertimbangan'] == "Tinggi"){
@@ -184,10 +188,222 @@ class Master extends CI_Controller {
 		 $i++;
 		}	
 
-			
-		$this->output->set_content_type('application/json')->set_output(json_encode($data));
+		//ngitung kawasan
+			$a = $i + 1;
+			//tingkat kumuh
+			$kawasan['nilai_total'] = $kawasan['nilai_total'] / $a;
+			if($kawasan['nilai_total'] <= 34){
+				$kawasan['tingkat'] = "Kumuh Ringan";
+			}else if( $kawasan['nilai_total'] >= 35 && $kawasan['nilai_total'] <= 54){
+				$kawasan['tingkat'] = "Kumuh Sedang";
+			}else if($kawasan['nilai_total'] >= 55){
+					$kawasan['tingkat'] = "Kumuh Berat";				
+			}
+			//pertimbangan
+			$kawasan['nilai_pertimbangan_total'] = $kawasan['nilai_pertimbangan_total'] / $a;
+			if($kawasan['nilai_pertimbangan_total'] <= 11){
+				$kawasan['pertimbangan'] = "Rendah";
+			}else if( $kawasan['nilai_pertimbangan_total'] >= 12 && $kawasan['nilai_pertimbangan_total'] <= 18){
+				$kawasan['pertimbangan'] = "Sedang";
+			}else if($data['data'][$i]['nilai_pertimbangan'] >= 25){
+					$kawasan['pertimbangan'] = "Tinggi";				
+			}
+
+			//prioritas
+			if($kawasan['tingkat'] == "Kumuh Berat" && $kawasan['pertimbangan'] == "Tinggi"){
+				$kawasan['prioritas'] = 1;
+			}else if($kawasan['tingkat'] == "Kumuh Sedang" && $kawasan['pertimbangan'] == "Tinggi"){
+				$kawasan['prioritas'] = 2;
+			}else if($kawasan['tingkat'] == "Kumuh Ringan" && $kawasan['pertimbangan'] == "Tinggi"){
+				$kawasan['prioritas'] = 3;
+			}else if($kawasan['tingkat'] == "Kumuh Berat" && $kawasan['pertimbangan'] == "Sedang"){
+				$kawasan['prioritas'] = 4;
+			}else if($kawasan['tingkat'] == "Kumuh Sedang" && $kawasan['pertimbangan'] == "Sedang"){
+				$kawasan['prioritas'] = 5;
+			}else if($kawasan['tingkat'] == "Kumuh Ringan" && $kawasan['pertimbangan'] == "Sedang"){
+				$kawasan['prioritas'] = 6;
+			}else if($kawasan['tingkat'] == "Kumuh Berat" && $kawasan['pertimbangan'] == "Rendah"){
+				$kawasan['prioritas'] = 7;
+			}else if($kawasan['tingkat'] == "Kumuh Sedang" && $kawasan['pertimbangan'] == "Rendah"){
+				$kawasan['prioritas'] = 8;
+			}else if($kawasan['tingkat'] == "Kumuh Ringan" && $kawasan['pertimbangan'] == "Rendah"){
+				$kawasan['prioritas'] = 9;
+			}
+			//legalitas
+			if($kawasan['nilai_legal_total'] >= 1){
+				$kawasan['legal'] = "LEGAL";
+			}else{
+				$kawasan['legal'] = "ILEGAL";
+			}
+			//penanganan
+			if($kawasan['prioritas'] == 1 or  $kawasan['prioritas'] == 4 or $kawasan['prioritas'] == 7){
+				if($kawasan['legal'] == "LEGAL"){
+					$kawasan['penanganan'] = "Pemukiman Kembali atau Peremajaan";
+				}else if($kawasan['legal'] == "ILEGAL"){
+					$kawasan['penanganan'] = "Pemukiman Kembali atau Legalisasi Lahan lalu Peremajaan";
+				}
+			}else if($kawasan['prioritas'] == 2 or  $kawasan['prioritas'] == 5 or $kawasan['prioritas'] == 8){
+				if($kawasan['legal'] == "LEGAL"){
+					$kawasan['penanganan'] = "Peremajaan";
+				}else if($kawasan['legal'] == "ILEGAL"){
+					$kawasan['penanganan'] = "Pemukiman Kembali atau Legalisasi Lahan lalu Peremajaan";
+				}
+			} else if($kawasan['prioritas'] == 3 or  $kawasan['prioritas'] == 6 or $kawasan['prioritas'] == 9){
+				if($kawasan['legal'] == "LEGAL"){
+					$kawasan['penanganan'] = "Pemugaran";
+				}else if($kawasan['legal'] == "ILEGAL"){
+					$kawasan['penanganan'] = "Pemukiman Kembali atau Legalisasi Lahan lalu Pemugaran";
+				}
+			}
+		}else{
+		$kawasan['nama_kawasan'] = '-';
+		$kawasan['sk_penetapan'] = '-';
+		$kawasan['nilai_total'] = 0;
+		$kawasan['nilai_pertimbangan_total'] = 0;
+		$kawasan['nilai_legal_total'] = 0;
+		$kawasan['penanganan'] = '-';
+		$kawasan['legal'] = '-';
+		$kawasan['prioritas'] = '-';
+		$kawasan['pertimbangan'] = '-';
+		$kawasan['tingkat'] = '-';
+		}
+		//$this->output->set_content_type('application/json')->set_output(json_encode($kawasan));
+			return $kawasan;
 	}
+
+	public function index($id=false)
+	{
+		$data['kawasan'] = $this->model_kawasan->get($id);
+
+		if ($id!=false) {
+			$this->load->view('template_backoffice/header');
+			$this->load->view('content_backoffice/kawasan/edit_kawasan', $data);
+			$this->load->view('template_backoffice/footer');
+		}
+		else{
+			for ($i=0; $i < count($data['kawasan']); $i++) { 
+				$data['kawasan'][$i]['nilai_kawasan'] = $this->get_nilai_kawasan($data['kawasan'][$i]['id']);
+				//echo $data['kawasan'][$i]['id'];
+			}
+			$this->load->view('template_backoffice/header');
+			$this->load->view('content_backoffice/kawasan/list_kawasan', $data);
+			$this->load->view('template_backoffice/footer');
+				//$this->output->set_content_type('application/json')->set_output(json_encode($data));
+	
+		}
+	}
+
+	public function add()
+	{
+		$this->load->view('template_backoffice/header');
+		$this->load->view('content_backoffice/kawasan/add_kawasan');
+		$this->load->view('template_backoffice/footer');
+	}
+
+	public function submit()
+	{
+
+		$this->form_validation->set_rules('nama_kawasan', 'Nama Kawasan', 'trim|required');
+		// $this->form_validation->set_rules('password', 'Password', 'trim|required|matches[password2]');
+		// $this->form_validation->set_rules('password2', 'Password Confirmation', 'trim|required');
+		
+		$this->form_validation->set_error_delimiters('<h6 class="w-500 alert bg-red">','</h6>');
+
+		if ($this->form_validation->run() == FALSE)
+		{
+			$this->load->view('template_backoffice/header');
+			$this->load->view('content_backoffice/kawasan/add_kawasan');
+			$this->load->view('template_backoffice/footer');
+		}
+		else
+		{
+			$insert = $this->model_kawasan->add();
+			if ($insert==true) {
+				redirect('kawasan');
+			}
+			else{
+				echo "gagal dimasukkan";
+			}
+			
+		}
+
+	}
+
+	public function edit()
+	{
+		$this->form_validation->set_rules('nama_kawasan', 'Nama kawasan', 'trim|required');
+		// $this->form_validation->set_rules('password', 'Password', 'trim|required|matches[password2]');
+		// $this->form_validation->set_rules('password2', 'Password Confirmation', 'trim|required');
+		
+		$this->form_validation->set_error_delimiters('<h6 class="w-500 alert bg-red">','</h6>');
+		
+		if ($this->form_validation->run() == FALSE)
+		{
+			$data['kawasan'] = $this->model_kawasan->get($this->input->post('id'));
+
+			$this->load->view('template_backoffice/header');
+			$this->load->view('content_backoffice/kawasan/edit_kawasan', $data);
+			$this->load->view('template_backoffice/footer');
+		}
+		else
+		{
+			$update = $this->model_kawasan->edit();
+			if ($update==true) {
+				redirect('kawasan');
+			}
+			else{
+				echo "gagal dimasukkan";
+			}
+			
+		}
+	}
+
+	public function delete($id)
+	{
+		$this->model_kawasan->delete($id);
+		redirect('kawasan');
+	}
+
+	public function kawasans()
+	{
+		
+		//$data['kabupaten'] 		= $this->model_kabupaten->get_kabupaten();
+		$data['kawasan'] = $this->model_kawasan->get();
+
+		for ($i=0; $i < count($data['kabupaten']); $i++) { 
+		
+		}
+
+		$this->output->set_content_backoffice_type('application/json')->set_output(json_encode($data));
+	}
+
+	public function geo()
+	{
+		# Build GeoJSON feature collection array
+		$geojson = array(
+		   'type'      => 'FeatureCollection',
+		   'features'  => array()
+		);
+
+		$data['kawasan'] = $this->model_kawasan->get_geo();
+
+		foreach ($data['kawasan'] as $item) {
+			$properties = $item;
+
+			unset($properties['wkb']);
+			unset($properties['the_geom']);
+			$feature = array(
+		         'type' => 'Feature',
+		         'properties' => $properties,
+		         'geometry' => json_decode($this->geophp->wkb_to_json($item['wkb']))
+		    );
+		    # Add feature arrays to feature collection array
+		    array_push($geojson['features'], $feature);
+		}
+		$this->output->set_content_type('application/json')->set_output(json_encode($geojson));
+	}
+
 }
 
-/* End of file jalan.php */
-/* Location: ./application/controllers/jalan.php */
+/* End of file user.php */
+/* Location: ./application/controllers/user.php */

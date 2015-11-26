@@ -7,9 +7,9 @@ class Model_kelurahan extends CI_Model {
 		$this->db->select('master_kelurahan.id_kecamatan, master_kelurahan.nama_kelurahan, master_kelurahan.id_kelurahan, master_kecamatan.nama_kecamatan');
 		$this->db->from('master_kelurahan');
 		if ($id_master_kelurahan!=false) {
-			$this->db->where('id', $id_master_kelurahan);
+			$this->db->where('master_kelurahan.id_kelurahan', $id_master_kelurahan);
 		}
-		$this->db->join('master_kecamatan', 'master_kecamatan.nomor = master_kelurahan.id_kecamatan', 'left');
+		$this->db->join('master_kecamatan', 'master_kecamatan.id_kecamatan = master_kelurahan.id_kecamatan', 'left');
 		$query = $this->db->get();
 		$result = $query->result_array();
 		return $result;

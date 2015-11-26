@@ -45,12 +45,12 @@
 			var id_kabupaten = $('#kabupaten').val();
 			var id_kecamatan = $('#kecamatan').val();
 
-			$.getJSON(root+'index.php/json/kabupaten/kecamatan/kelurahan/' + id_kabupaten + '/' + id_kecamatan, function (data) {
+			$.getJSON(root+'index.php/backoffice_kelurahan/json/' + id_kecamatan, function (data) {
 					// console.log(data);
 					$('#desa').empty();
 					$('#desa').append('<option value="">-- Pilih Desa / Kelurahan --</option>');
 					$.each(data, function (i, item) {
-						$('#desa').append('<option value="'+data[i].id_desa+'">'+data[i].desa+'</option>')
+						$('#desa').append('<option value="'+data[i].id_kelurahan+'">'+data[i].nama_kelurahan+'</option>')
 					})
 					$('#desa').select2().select2("val", null);
 				});
@@ -144,7 +144,7 @@
 			return false;
 		});
 
-	var table = $('#table').DataTable({
+	$('#table').DataTable({
 		"searchHighlight": true,
 		"lengthMenu": [ [25, 50, 100, -1], [25, 50, 100, "Semua"] ],
 		"language": {
@@ -163,61 +163,7 @@
 		                "sNext":     "Selanjutnya",
 		                "sLast":     "Terakhir"
 		            }
-		        },
-		"processing": true,
-		// "bStateSave": true, // save datatable state(pagination, sort, etc) in cookie.
-		"ajax":root + "index.php/perusahaan/json",
-		"columns": [
-		            { 	
-		            	"data": "nomor",
-		            	"orderable": true, 
-		            	"width":"5%" 
-		            },
-		            { 	"data": "fnama", 
-		            	"orderable": true, 
-		            	"width":"15%" 
-		            },
-		            { 	"data": "falamat", 
-		            	"orderable": true, 
-		            	"width":"20%"  
-		            },
-		            { 	"data": "nama_kabupaten", 
-		            	"orderable": true, 
-		            	"width":"15%"  
-		            },
-		            { 	"data": "nama_kecamatan", 
-		            	"orderable": true, 
-		            	"width":"10%"  
-		            },
-		            { 	"data": null,
-		            	"render": function (data) {
-		            		if (data.fstatus == 0) {
-		            			return '<span style="color:red;">Tidak Aktif</span>';
-		            		}else{
-		            			return '<span style="color:green;">Aktif</span>';
-		            		}
-		            	},
-		             	"orderable": true, 
-		             	"width":"10%" 
-		            },
-		            { 	"data": null,
-		                "render" : function (data) {
-		                    return '<div class="row" style="margin-bottom:10px">' +
-	                              		'<div class="col-xs-4">' +
-	                                		'<a title="Detail" href="' + root + 'index.php/perusahaan/' + data.id_perusahaan + '" class="btn btn-sm btn-info btn-square"><i class="fa fa-search"></i></a>' +
-	                              		'</div>'+
-	                            	  	'<div class="col-xs-4">' +
-	                            	    	'<a title="Edit" href="' + root + 'index.php/perusahaan/edit/' + data.id_perusahaan + '" class="btn btn-sm btn-success btn-square"><i class="fa fa-pencil-square-o"></i></a>' +
-	                            	  	'</div>' +
-	                            	  	'<div class="col-xs-4">' +
-	                            	    	'<a title="Hapus" href="' + root + 'index.php/perusahaan/delete/' + data.id_perusahaan + '" class="btn btn-sm btn-danger btn-square" onclick="return confirm(\'Apakah Anda Yakin Untuk Menghapus Data Ini?\')"><i class="fa fa-ban"></i></a>' +
-	                            	  	'</div>' +
-	                            	'</div>';
-		                },
-		                "orderable": false, 
-		             	"width":"15%" 
-		            }
-		        ],
+		        }
 	});
 
 	// $('<div class="btn-group"><button type="button" class="btn btn-info btn-square dropdown-toggle" data-toggle="dropdown"><i class="fa fa-spinner fa-spin" id="loading"></i> Cetak <span class="caret"></span></button><span class="dropdown-arrow"></span><ul class="dropdown-menu" role="menu"><li><a href="javascript:void(0)" id="print_pdf">Cetak PDF</a></li><li><a href="javascript:void(0)" id="print_excel">Cetak Excel</a></li></ul></div>').appendTo('div#table_filter');
@@ -267,7 +213,7 @@
 	//     window.open( root + 'index.php/perusahaan/print/excel/' + params_perusahaan );
 	// });
 
-	var table = $('#master_table').DataTable({
+	$('#master_table').DataTable({
 		"searchHighlight": true,
 		"lengthMenu": [ [25, 50, 100, -1], [25, 50, 100, "Semua"] ],
 		"language": {
