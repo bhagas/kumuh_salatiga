@@ -203,6 +203,9 @@ class Rt extends CI_Controller {
 		$data['rt'] = $this->model_rt->get($id);
 
 		if ($id!=false) {
+			$data['kecamatan'] = $this->model_kecamatan->get_kecamatan();
+			$data['kelurahan'] = $this->model_kelurahan->get_kelurahan();
+			$data['kawasan'] = $this->model_kawasan->get();
 			$this->load->view('template_backoffice/header');
 			$this->load->view('content_backoffice/rt/edit_rt', $data);
 			$this->load->view('template_backoffice/footer');
@@ -220,6 +223,22 @@ class Rt extends CI_Controller {
 			//	$this->output->set_content_type('application/json')->set_output(json_encode($data));
 	
 		}
+	}
+
+	public function get_rt_by_kawasan($id=false)
+	{
+		$data['rt'] = $this->model_rt->get_rt_by_kawasan($id);
+
+	
+			for ($i=0; $i < count($data['rt']); $i++) { 
+				$data['rt'][$i]['nilai_rt'] = $this->get_nilai_rt($data['rt'][$i]['id']);
+				$data['rt'][$i]['kecamatan'] = $this->model_kecamatan->get_nama_kecamatan($data['rt'][$i]['id_kec']);
+				$data['rt'][$i]['kelurahan'] = $this->model_kelurahan->get_kelurahan($data['rt'][$i]['id_kel']);
+					//echo $data['kawasan'][$i]['id'];
+			}
+				$this->output->set_content_type('application/json')->set_output(json_encode($data));
+	
+		
 	}
 
 	public function add()
@@ -299,14 +318,44 @@ class Rt extends CI_Controller {
 		if ($this->form_validation->run() == FALSE)
 		{
 			$data['rt'] = $this->model_rt->get($this->input->post('id'));
-
+			$data['kecamatan'] = $this->model_kecamatan->get_kecamatan();
+			$data['kelurahan'] = $this->model_kelurahan->get_kelurahan();
+			$data['kawasan'] = $this->model_kawasan->get();
+			//$this->output->set_content_type('application/json')->set_output(json_encode($data));
 			$this->load->view('template_backoffice/header');
 			$this->load->view('content_backoffice/rt/edit_rt', $data);
 			$this->load->view('template_backoffice/footer');
 		}
 		else
 		{
-			$update = $this->model_rt->edit();
+			$object  	= $_POST;
+
+			$nama['foto_bangunan']= pathinfo($_FILES['foto_bangunan']['name'], PATHINFO_FILENAME);
+			if($nama['foto_bangunan']!=""){
+				$foto_bangunan 	=	$this->model_master->upload_foto('foto_bangunan', $nama['foto_bangunan']);
+				 $object['foto_bangunan']  = substr($foto_bangunan, 0, -4);
+			}
+			$nama['foto_jalan']= pathinfo($_FILES['foto_jalan']['name'], PATHINFO_FILENAME);
+			if($nama['foto_jalan']!=""){
+				$foto_jalan 	=	$this->model_master->upload_foto('foto_jalan', $nama['foto_jalan']);
+				 $object['foto_jalan']  = substr($foto_jalan, 0, -4);
+			}
+				$nama['foto_air_minum']= pathinfo($_FILES['foto_air_minum']['name'], PATHINFO_FILENAME);
+			if($nama['foto_air_minum']!=""){
+				$foto_air_minum 	=	$this->model_master->upload_foto('foto_air_minum', $nama['foto_air_minum']);
+				 $object['foto_air_minum']  = substr($foto_air_minum, 0, -4);
+			}
+			$nama['foto_drainase']= pathinfo($_FILES['foto_drainase']['name'], PATHINFO_FILENAME);
+			if($nama['foto_drainase']!=""){
+				$foto_drainase 			  =	$this->model_master->upload_foto('foto_drainase', $nama['foto_drainase']);
+				$object['foto_drainase']  = substr($foto_drainase, 0, -4);
+			}
+			$nama['foto_sampah']= pathinfo($_FILES['foto_sampah']['name'], PATHINFO_FILENAME);
+			if($nama['foto_sampah']!=""){
+				$foto_sampah 	=	$this->model_master->upload_foto('foto_sampah', $nama['foto_sampah']);
+				 $object['foto_sampah']  = substr($foto_sampah, 0, -4);
+			}
+			$update = $this->model_rt->edit($object);
 			if ($update==true) {
 				redirect('rt');
 			}

@@ -30,9 +30,9 @@ class Model_kelurahan extends CI_Model {
 
 	public function get_desa_geo()
 	{
-		$this->db->select('asWkb(the_geom) as wkb, desa, id_kecamatan, id_kabupaten');
-		$this->db->from('master_desa_backup');
-		$this->db->limit(8000);
+		$this->db->select('asWkb(the_geom) as wkb, nama_kelurahan, id_kecamatan, id_kelurahan');
+		$this->db->from('master_kelurahan');
+	
 		$query = $this->db->get();
 		$result = $query->result_array();
 		return $result;

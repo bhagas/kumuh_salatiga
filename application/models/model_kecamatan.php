@@ -6,7 +6,7 @@ class Model_kecamatan extends CI_Model {
 
 	public function get_kecamatan_geo()
 	{
-		$this->db->select('asWkb(the_geom) as wkb, nama_kecamatan');
+		$this->db->select('asWkb(the_geom) as wkb, nama_kecamatan, id_kecamatan');
 		$this->db->from('master_kecamatan');
 
 		$query = $this->db->get();

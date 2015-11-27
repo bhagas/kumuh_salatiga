@@ -84,6 +84,10 @@
                                 <li><a href="<?php echo base_url('index.php/rt') ?>"> Data RT</a></li>
                             </ul>
                         </li>
+                          <li class="children">
+                            <a href="<?php echo base_url('index.php/peta') ?>"><i class="icon-note"></i><span data-translate="forms">PETA </span><span class="fa arrow"></span></a>
+                           
+                        </li>
                         <li class="nav-parent">
                             <a href=""><i class="icon-wrench"></i><span data-translate="forms">Pengaturan </span><span class="fa arrow"></span></a>
                             <ul class="children collapse">

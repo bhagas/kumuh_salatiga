@@ -88,174 +88,229 @@
                             </div>
                           </div>
                         </div>
+                        <div class="form-group">
                           <div class="row">
                             <div class="col-md-12">
                               <label>Luas Kawasan</label>
                               <input type="text" class="form-control" name="luas_kawasan">
                             </div>
                           </div>
+                          </div>
+                          <div class="form-group">
                            <div class="row">
                             <div class="col-md-12">
                               <label>Jumlah Penduduk</label>
                               <input type="text" class="form-control" name="jml_penduduk">
                             </div>
                           </div>
+                          </div>
+                          <div class="form-group">
                             <div class="row">
                             <div class="col-md-12">
                               <label>Jumlah KK</label>
                               <input type="text" class="form-control" name="jml_kk">
                             </div>
                           </div>
+                          </div>
+                          <div class="form-group">
                             <div class="row">
                             <div class="col-md-12">
                               <label>Jumlah Bangunan</label>
                               <input type="text" class="form-control" name="jml_bgn">
                             </div>
                           </div>
+                          </div>
+                          <div class="form-group">
                           <div class="row">
                             <div class="col-md-12">
                               <label>Keteraturan Bangunan</label>
                               <input type="text" class="form-control" name="keteraturan_bangunan">
                             </div>
                           </div>
+                          </div>
+                          <div class="form-group">
                            <div class="row">
                             <div class="col-md-12">
                               <label>Ketentuan Kepadatan</label>
                               <input type="text" class="form-control" name="ketentuan_kepadatan">
                             </div>
                           </div>
+                          </div>
+                          <div class="form-group">
                             <div class="row">
                             <div class="col-md-12">
                               <label>Syarat Teknis Bangunan</label>
                               <input type="text" class="form-control" name="syarat_teknis_bangunan">
                             </div>
                           </div>
+                          </div>
+                          <div class="form-group">
                            <div class="row">
                             <div class="col-md-12">
                               <label>Foto Bangunan</label>
                               <input type="file" class="form-control" name="foto_bangunan">
                             </div>
                           </div>
+                          </div>
+                          <div class="form-group">
                            <div class="row">
                             <div class="col-md-12">
                               <label>Area Tidak Terlayani Jalan</label>
                               <input type="text" class="form-control" name="area_tidak_terlayani_jalan">
                             </div>
                           </div>
+                          </div>
+                          <div class="form-group">
                            <div class="row">
                             <div class="col-md-12">
                               <label>Jalan Buruk</label>
                               <input type="text" class="form-control" name="jalan_buruk">
                             </div>
                           </div>
+                          </div>
+                          <div class="form-group">
                             <div class="row">
                             <div class="col-md-12">
                               <label>Foto Jalan</label>
                               <input type="file" class="form-control" name="foto_jalan">
                             </div>
                           </div>
+                          </div>
+                          <div class="form-group">
                             <div class="row">
                             <div class="col-md-12">
                               <label>Akses Air Minum</label>
                               <input type="text" class="form-control" name="akses_air_minum">
                             </div>
                           </div>
-
+                          </div>
+                          <div class="form-group">
                             <div class="row">
                             <div class="col-md-12">
                               <label>Tidak Terpenuhi Air Minum</label>
                               <input type="text" class="form-control" name="tidak_terpenuhi_air_minum">
                             </div>
                           </div>
+                          </div>
+                          <div class="form-group">
                             <div class="row">
                             <div class="col-md-12">
                               <label>Foto Air Minum</label>
                               <input type="file" class="form-control" name="foto_air_minum">
                             </div>
                           </div>
+                          </div>
+                          <div class="form-group">
                             <div class="row">
                             <div class="col-md-12">
                               <label>Area Genangan</label>
                               <input type="text" class="form-control" name="area_genangan">
                             </div>
                           </div>
+                          </div>
+                          <div class="form-group">
                            <div class="row">
                             <div class="col-md-12">
                               <label>Tidak ada Drainasse</label>
                               <input type="text" class="form-control" name="tidak_ada_drainase">
                             </div>
                           </div>
+                          </div>
+                          <div class="form-group">
                            <div class="row">
                             <div class="col-md-12">
                               <label>Drainasse tidak Terhubung</label>
                               <input type="text" class="form-control" name="drainase_tidak_terhubung">
                             </div>
                           </div>
+                          </div>
+                          <div class="form-group">
                            <div class="row">
                             <div class="col-md-12">
                               <label>Drainase Kotor</label>
                               <input type="text" class="form-control" name="drainase_kotor">
                             </div>
                           </div>
+                          </div>
+                          <div class="form-group">
                            <div class="row">
                             <div class="col-md-12">
                               <label>Konstruksi Drainase Buruk</label>
                               <input type="text" class="form-control" name="konstruksi_drainase_buruk">
                             </div>
                           </div>
+                          </div>
+                          <div class="form-group">
                            <div class="row">
                             <div class="col-md-12">
                               <label>Foto Drainase</label>
                               <input type="file" class="form-control" name="foto_drainase">
                             </div>
                           </div>
+                          </div>
+                          <div class="form-group">
                             <div class="row">
                             <div class="col-md-12">
                               <label>Sistem Air Limbah</label>
                               <input type="text" class="form-control" name="sistem_air_limbah">
                             </div>
                           </div>
+                          </div>
+                          <div class="form-group">
                            <div class="row">
                             <div class="col-md-12">
                               <label>Sarpras Air Limbah</label>
                               <input type="text" class="form-control" name="sarpras_air_limbah">
                             </div>
                           </div>
+                          </div>
+                          <div class="form-group">
                            <div class="row">
                             <div class="col-md-12">
                               <label>Sarpras Sampah</label>
                               <input type="text" class="form-control" name="sarpras_sampah">
                             </div>
                           </div>
+                          </div>
+                          <div class="form-group">
                            <div class="row">
                             <div class="col-md-12">
                               <label>Sistem Sampah</label>
                               <input type="text" class="form-control" name="sistem_sampah">
                             </div>
                           </div>
+                          </div>
+                          <div class="form-group">
                            <div class="row">
                             <div class="col-md-12">
                               <label>Sarpras Sampah perlihara</label>
                               <input type="text" class="form-control" name="sarpras_sampah_pelihara">
                             </div>
                           </div>
+                          </div>
+                          <div class="form-group">
                             <div class="row">
                             <div class="col-md-12">
                               <label>Foto Sampah</label>
                               <input type="file" class="form-control" name="foto_sampah">
                             </div>
                           </div>
+                          </div>
+                          <div class="form-group">
                             <div class="row">
                             <div class="col-md-12">
                               <label>Prasarana Bakar</label>
                               <input type="text" class="form-control" name="prasarana_bakar">
                             </div>
                           </div>
+                          </div>
+                          <div class="form-group">
                           <div class="row">
                             <div class="col-md-12">
                               <label>Sarana Bakar</label>
                               <input type="text" class="form-control" name="sarana_bakar">
                             </div>
+                          </div>
                           </div>
                           <div class="form-group">
                           <div class="row">

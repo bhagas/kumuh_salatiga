@@ -364,20 +364,17 @@ class Kawasan extends CI_Controller {
 		redirect('kawasan');
 	}
 
-	public function kawasans()
+	public function kawasans($id_kawasan=false)
 	{
 		
 		//$data['kabupaten'] 		= $this->model_kabupaten->get_kabupaten();
-		$data['kawasan'] = $this->model_kawasan->get();
+		$data['kawasan'] = $this->model_kawasan->get($id_kawasan);
 
-		for ($i=0; $i < count($data['kabupaten']); $i++) { 
-		
-		}
 
-		$this->output->set_content_backoffice_type('application/json')->set_output(json_encode($data));
+		$this->output->set_content_type('application/json')->set_output(json_encode($data));
 	}
 
-	public function geo()
+	public function geo($id_kawasan=false)
 	{
 		# Build GeoJSON feature collection array
 		$geojson = array(
@@ -385,7 +382,7 @@ class Kawasan extends CI_Controller {
 		   'features'  => array()
 		);
 
-		$data['kawasan'] = $this->model_kawasan->get_geo();
+		$data['kawasan'] = $this->model_kawasan->get_geo($id_kawasan);
 
 		foreach ($data['kawasan'] as $item) {
 			$properties = $item;

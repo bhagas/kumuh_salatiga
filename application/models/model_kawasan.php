@@ -72,11 +72,15 @@ class Model_kawasan extends CI_Model {
 			return false;
 		}
 	}
-	public function get_geo()
+	public function get_geo($id_kawasan)
 	{
-		$this->db->select('asWkb(the_geom) as wkb,  id');
+		if($id_kawasan !=false){
+			$this->db->where('kawasan_kumuh.id', $id_kawasan);
+		
+		}
+		$this->db->select('asWkb(kawasan_kumuh.the_geom) as wkb,  data_kawasan.id, data_kawasan.nama_kawasan');
 		$this->db->from('kawasan_kumuh');
-		$this->db->join('data_kawasan', 'data_kawasan.id = kawasan_kumuh.id_kawasan', 'left');
+		$this->db->join('data_kawasan', 'data_kawasan.id = kawasan_kumuh.id', 'left');
 		
 		$query = $this->db->get();
 		$result = $query->result_array();

@@ -20,6 +20,18 @@ class Model_rt extends CI_Model {
 		$result = $query->result_array();
 		return $result;
 	}
+	public function get_rt_by_kawasan($id=false)
+	{
+		$this->db->select('*');
+		$this->db->where('deleted', 0);
+		if ($id!=false) {
+			$this->db->where('id_kawasan', $id);
+		}
+		$this->db->from('kawasan');
+		$query 	= $this->db->get();
+		$result = $query->result_array();
+		return $result;
+	}
 
 	public function add($object)
 	{
@@ -35,9 +47,9 @@ class Model_rt extends CI_Model {
 		}
 	}
 
-	public function edit()
+	public function edit($object)
 	{
-		$object  	= $_POST;
+		//$object  	= $_POST;
 	
 		$this->db->where('id', $this->input->post('id'));
 		$query = $this->db->update('kawasan', $object);
