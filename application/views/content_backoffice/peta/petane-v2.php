@@ -263,66 +263,12 @@
   	var lokasi_layer = null;
   	var source = null;
 
-      $.ajax({
-          'type': "GET",
-          'async': false,
-          'global': false,
-          'url': root+"index.php/kawasan/geo/",
-          'dataType': 'json',
-          success: function (data) {
-             $('#search_result').empty();
-              source = data;
-              //balikin kawasannya
-              lokasi_layer = L.geoJson(data, {
-                onEachFeature: function (feature, layer) {
-                             var bounds = layer.getBounds();
-                        // Get center of bounds
-                        var center = bounds.getCenter();
-                      
-                     // console.log(center);
-                    // layer.bindPopup(feature.properties.id_lokasi);
-                   
-                   $('#search_result').append('<li><a href="javascript:void(0)" onclick="tambah_titik(' + center.lat + ', ' + center.lng + ')">' + feature.properties.nama_kawasan + '</a></li>');
-           
-                    layer.on('click', function(e){
-
-                     // console.log(root+"index.php/master/get_nilai_kawasan/" + feature.properties.id)
-                      $.getJSON(root+"index.php/master/get_nilai_kawasan/" + feature.properties.id, function (data) {
-                        $.each(data, function (a, item) {
-                         // console.log(item)
-                         $('#nama_kawasan').html(feature.properties.nama_kawasan);
-                         $('#sk_penetapan').html(data.sk_penetapan);
-                         $('#tingkat_kekumuhan').html(data.tingkat);
-                         $('#pertimbangan').html(data.sk_penetapan);
-                         $('#prioritas').html(data.sk_penetapan);
-                         $('#legal').html(data.legal);
-                         $('#penanganan').html(data.penanganan);
-                       })
-                          });
-                      //   $('#foto').html("<img src='"+root+"img/foto/"+feature.properties.foto+".JPG' style='width:100px;'>");
-                     //    $('#foto2').html("<img src='"+root+"img/foto/"+feature.properties.foto2+".JPG' style='width:100px;'>");
-                     //    $('#foto3').html("<img src='"+root+"img/foto/"+feature.properties.foto3+".JPG' style='width:100px;'>");
-                        
-                        $('#body_table').empty();
-                        //table kegiatan
-                        $.getJSON(root+"index.php/rt/get_rt_by_kawasan/" + feature.properties.id, function (data) {
-                            
-                           $.each(data.rt, function (a, item) {
-                            //console.log(item.nilai_rt.data[0]);
-                              $('#kegiatan tbody').append('<tr><td>'+item.nilai_rt.data[0].rt+'</td><td>'+item.nilai_rt.data[0].rw+'</td><td>'+item.nilai_rt.data[0].tingkat_kekumuhan+'</td><td >'+item.nilai_rt.data[0].prioritas+'</td><td>'+item.nilai_rt.data[0].legal+'</td><td>'+item.nilai_rt.data[0].penanganan+'</td></tr>');
-                           
-                           })
-                       });
-                        $('#modal').modal('show');
-                        // console.log( root+"index.php/maps/cetak_lokasi/" + feature.properties.id_lokasi +"/"+usul );
-                    })
-                }
-              });
-              lokasi_layer.addTo(map);  
-          }
-      });
+    ganti_option();
+    
   	function ganti_option(){
-
+      if(lokasi_layer != null){
+      map.removeLayer(lokasi_layer);
+    }
       var id_kawasan = $("#kawasan").val();
       
       //root+"index.php/kawasan/kawasans/"+$('#kecamatan').val()+"/"+$("#desa").val()
@@ -357,25 +303,38 @@
                    
                    $('#search_result').append('<li><a href="javascript:void(0)" onclick="tambah_titik(' + center.lat + ', ' + center.lng + ')">' + feature.properties.nama_kawasan + '</a></li>');
            
-	                	layer.on('click', function(e){
-	                  		// $('#nama_lokasi').html(feature.properties.nama);
-	                  		// $('#alamat_lokasi').html(feature.properties.alamat);
-	                    //   $('#foto').html("<img src='"+root+"img/foto/"+feature.properties.foto+".JPG' style='width:100px;'>");
+	                     layer.on('click', function(e){
+
+                     // console.log(root+"index.php/master/get_nilai_kawasan/" + feature.properties.id)
+                      $.getJSON(root+"index.php/master/get_nilai_kawasan/" + feature.properties.id, function (data) {
+                        $.each(data, function (a, item) {
+                         // console.log(item)
+                         $('#nama_kawasan').html(feature.properties.nama_kawasan);
+                         $('#sk_penetapan').html(data.sk_penetapan);
+                         $('#tingkat_kekumuhan').html(data.tingkat);
+                         $('#pertimbangan').html(data.sk_penetapan);
+                         $('#prioritas').html(data.sk_penetapan);
+                         $('#legal').html(data.legal);
+                         $('#penanganan').html(data.penanganan);
+                       })
+                          });
+                      //   $('#foto').html("<img src='"+root+"img/foto/"+feature.properties.foto+".JPG' style='width:100px;'>");
                      //    $('#foto2').html("<img src='"+root+"img/foto/"+feature.properties.foto2+".JPG' style='width:100px;'>");
                      //    $('#foto3').html("<img src='"+root+"img/foto/"+feature.properties.foto3+".JPG' style='width:100px;'>");
                         
-	                  		$('#body_table').empty();
-	                  		//table kegiatan
-	                  		// $.getJSON(root+"index.php/maps/cetak_lokasi/" + feature.properties.id_lokasi +"/"+usul+"/"+tahun, function (data) {
-		                   //    	// console.log(data);
-		                   //    	// $.each(data.data, function (a, item) {
-		                   //     //  	$('#kegiatan tbody').append('<tr><td></td><td></td><td></td><td >'+item.nama_skpd+'</td><td></td></tr>');
-		                       
-		                   //    	// })
-	                    // 	});
-	                  		$('#modal').modal('show');
-	                  		// console.log( root+"index.php/maps/cetak_lokasi/" + feature.properties.id_lokasi +"/"+usul );
-	                	})
+                        $('#body_table').empty();
+                        //table kegiatan
+                        $.getJSON(root+"index.php/rt/get_rt_by_kawasan/" + feature.properties.id, function (data) {
+                            
+                           $.each(data.rt, function (a, item) {
+                            //console.log(item.nilai_rt.data[0]);
+                              $('#kegiatan tbody').append('<tr><td>'+item.nilai_rt.data[0].rt+'</td><td>'+item.nilai_rt.data[0].rw+'</td><td>'+item.nilai_rt.data[0].tingkat_kekumuhan+'</td><td >'+item.nilai_rt.data[0].prioritas+'</td><td>'+item.nilai_rt.data[0].legal+'</td><td>'+item.nilai_rt.data[0].penanganan+'</td></tr>');
+                           
+                           })
+                       });
+                        $('#modal').modal('show');
+                        // console.log( root+"index.php/maps/cetak_lokasi/" + feature.properties.id_lokasi +"/"+usul );
+                    })
             		}
           		});
           		lokasi_layer.addTo(map);  

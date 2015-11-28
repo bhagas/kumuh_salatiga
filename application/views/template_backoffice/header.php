@@ -82,6 +82,7 @@
                                 <!-- <li><a href="<?php echo base_url('index.php/master/kabupaten') ?>"> Master Kabupaten</a></li> -->
                                 <li><a href="<?php echo base_url('index.php/kawasan') ?>"> Kawasan</a></li>
                                 <li><a href="<?php echo base_url('index.php/rt') ?>"> Data RT</a></li>
+                                <li><a href="<?php echo base_url('index.php/rt') ?>"> Data Hunian</a></li>
                             </ul>
                         </li>
                           <li class="children">
