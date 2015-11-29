@@ -22,8 +22,8 @@ class Kawasan extends CI_Controller {
 				$output['ket'] = $item['ket'];
 				break;
 			}else{
-				$output['nilai'] = 1;
-				$output['ket'] = "Nilai berada dibawah ketentuan";
+				$output['nilai'] = 0;
+				$output['ket'] = "Bukan Kawasan Kumuh";
 				
 			}
 		}	
@@ -41,7 +41,7 @@ class Kawasan extends CI_Controller {
 				$output['ket'] = $item['ket'];
 				break;
 			}else{
-				$output['nilai'] = 1;
+				$output['nilai'] = 0;
 				$output['ket'] = "Nilai berada dibawah / diatas ketentuan";
 	
 				
@@ -189,7 +189,7 @@ class Kawasan extends CI_Controller {
 		}	
 
 		//ngitung kawasan
-			$a = $i + 1;
+			$a = $i;
 			//tingkat kumuh
 			$kawasan['nilai_total'] = $kawasan['nilai_total'] / $a;
 			if($kawasan['nilai_total'] <= 34){
@@ -374,7 +374,7 @@ class Kawasan extends CI_Controller {
 		$this->output->set_content_type('application/json')->set_output(json_encode($data));
 	}
 
-	public function geo($id_kawasan=false)
+	public function geo($id_kawasan=false, $id_kecamatan=false, $id_kelurahan=false)
 	{
 		# Build GeoJSON feature collection array
 		$geojson = array(
@@ -382,7 +382,7 @@ class Kawasan extends CI_Controller {
 		   'features'  => array()
 		);
 
-		$data['kawasan'] = $this->model_kawasan->get_geo($id_kawasan);
+		$data['kawasan'] = $this->model_kawasan->get_geo($id_kawasan, $id_kecamatan, $id_kelurahan);
 
 		foreach ($data['kawasan'] as $item) {
 			$properties = $item;

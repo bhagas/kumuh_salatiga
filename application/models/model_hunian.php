@@ -21,12 +21,14 @@ class Model_hunian extends CI_Model {
 	}
 	public function get($id=false)
 	{
-		$this->db->select('*');
-		$this->db->where('deleted', 0);
+		$this->db->select('hunian.*, AsText(kawasan_kumuh.the_geom) as wkt');
+		$this->db->where('hunian.deleted', 0);
 		if ($id!=false) {
-			$this->db->where('id', $id);
+			$this->db->where('hunian.id', $id);
 		}
 		$this->db->from('hunian');
+		$this->db->join('kawasan_kumuh', 'hunian.id_kec = kawasan_kumuh.id_kecamatan and hunian.id_kel = kawasan_kumuh.id_kelurahan and hunian.rt = kawasan_kumuh.rt and hunian.rw = kawasan_kumuh.rw', 'left');
+		
 		$query 	= $this->db->get();
 		$result = $query->result_array();
 		return $result;
@@ -57,7 +59,36 @@ class Model_hunian extends CI_Model {
 			return false;
 		}
 	}
+	public function add_geo($options, $geometry)
 
+	{
+		unset($options['wkt']);
+		$this->db->set("the_geom",'geomfromtext("'.$geometry.'")',false);
+		
+		$result = $this->db->insert('kawasan_kumuh', $options);
+		if ($result) {
+			return 1;
+		}
+		else{
+			return 0;
+		}
+	}
+	public function edit_geo($options, $geometry)
+	
+	{
+
+		unset($options['wkt']);
+		$this->db->delete('kawasan_kumuh', $options); 
+		$this->db->set("the_geom",'geomfromtext("'.$geometry.'")',false);
+		
+		$result = $this->db->insert('kawasan_kumuh', $options);
+		if ($result) {
+			return 1;
+		}
+		else{
+			return 0;
+		}
+	}
 	public function edit($object)
 	{
 		//$object  	= $_POST;

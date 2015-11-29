@@ -264,12 +264,14 @@
   	var source = null;
 
     ganti_option();
-    
+
   	function ganti_option(){
       if(lokasi_layer != null){
       map.removeLayer(lokasi_layer);
     }
       var id_kawasan = $("#kawasan").val();
+       var id_kecamatan = $("#kecamatan").val();
+           var id_kelurahan = $("#desa").val();
       
       //root+"index.php/kawasan/kawasans/"+$('#kecamatan').val()+"/"+$("#desa").val()
       // $.getJSON( root+"index.php/kawasan/kawasans/"+id_kawasan, function( json ) {
@@ -286,7 +288,7 @@
         	'type': "GET",
         	'async': false,
         	'global': false,
-        	'url': root+"index.php/kawasan/geo/"+id_kawasan,
+        	'url': root+"index.php/kawasan/geo/"+id_kawasan+"/"+id_kecamatan+"/"+id_kelurahan,
         	'dataType': 'json',
         	success: function (data) {
              $('#search_result').empty();
@@ -305,15 +307,15 @@
            
 	                     layer.on('click', function(e){
 
-                     // console.log(root+"index.php/master/get_nilai_kawasan/" + feature.properties.id)
+                    //  console.log(root+"index.php/master/get_nilai_kawasan/" + feature.properties.id)
                       $.getJSON(root+"index.php/master/get_nilai_kawasan/" + feature.properties.id, function (data) {
                         $.each(data, function (a, item) {
                          // console.log(item)
                          $('#nama_kawasan').html(feature.properties.nama_kawasan);
                          $('#sk_penetapan').html(data.sk_penetapan);
                          $('#tingkat_kekumuhan').html(data.tingkat);
-                         $('#pertimbangan').html(data.sk_penetapan);
-                         $('#prioritas').html(data.sk_penetapan);
+                         $('#pertimbangan').html(data.pertimbangan);
+                         $('#prioritas').html(data.prioritas);
                          $('#legal').html(data.legal);
                          $('#penanganan').html(data.penanganan);
                        })
@@ -324,11 +326,12 @@
                         
                         $('#body_table').empty();
                         //table kegiatan
+                        //console.log(root+"index.php/rt/get_rt_by_kawasan/" + feature.properties.id)
                         $.getJSON(root+"index.php/rt/get_rt_by_kawasan/" + feature.properties.id, function (data) {
                             
                            $.each(data.rt, function (a, item) {
                             //console.log(item.nilai_rt.data[0]);
-                              $('#kegiatan tbody').append('<tr><td>'+item.nilai_rt.data[0].rt+'</td><td>'+item.nilai_rt.data[0].rw+'</td><td>'+item.nilai_rt.data[0].tingkat_kekumuhan+'</td><td >'+item.nilai_rt.data[0].prioritas+'</td><td>'+item.nilai_rt.data[0].legal+'</td><td>'+item.nilai_rt.data[0].penanganan+'</td></tr>');
+                              $('#kegiatan tbody').append('<tr><td>'+item.nilai_rt.data[0].rt+'</td><td>'+item.nilai_rt.data[0].rw+'</td><td>'+item.nilai_rt.data[0].tingkat+'</td><td >'+item.nilai_rt.data[0].prioritas+'</td><td>'+item.nilai_rt.data[0].legal+'</td><td>'+item.nilai_rt.data[0].penanganan+'</td></tr>');
                            
                            })
                        });
@@ -466,7 +469,7 @@
           	// Get center of bounds
           	var center = bounds.getCenter();
             //console.log(layer.feature.properties.id_ds +","+$('#desa').val())
-          	if( layer.feature.properties.id_ds == $('#desa').val() ){
+          	if( layer.feature.properties.id_kelurahan == $('#desa').val() ){
         		  map.panTo(center);
             	layer.setStyle(style_kabupaten);       
           	}else{
@@ -476,20 +479,20 @@
           	if( $('#desa').val()=="" ){
 
            		kabupaten_layer.eachLayer(function (layer_kab) {
-              		if( layer_kab.feature.properties.id_kc == $('#kecamatan').val() ){
+              		if( layer_kab.feature.properties.id_kecamatan == $('#kecamatan').val() ){
                 		layer_kab.setStyle(style_kabupaten)
               		}
             	})
             	
             	kecamatan_layer.eachLayer(function (layer_kec) {
-              		if( layer_kec.feature.properties.id_kc == $('#kecamatan').val() ){
+              		if( layer_kec.feature.properties.id_kecamatan == $('#kecamatan').val() ){
                 		layer_kec.setStyle(style_kabupaten)
               		}
            		})
             	
             	//list_kelurahan($('#kecamatan').val());
             	
-            	if( layer.feature.properties.id_kc == $('#kecamatan').val() ){
+            	if( layer.feature.properties.id_kecamatan == $('#kecamatan').val() ){
               		layer.setStyle(style_kabupaten);
             	}
             }

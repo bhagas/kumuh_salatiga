@@ -192,7 +192,7 @@ public function get_nilai_kawasan($id_kawasan=false)
 		}	
 
 		//ngitung kawasan
-			$a = $i + 1;
+			$a = $i ;
 			//tingkat kumuh
 			$kawasan['nilai_total'] = $kawasan['nilai_total'] / $a;
 			if($kawasan['nilai_total'] <= 34){

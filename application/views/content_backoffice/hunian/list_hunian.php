@@ -19,7 +19,7 @@
                 <div class="panel-content">
                   <div class="row">
                     <div class="col-md-5">
-                      <a href="<?php echo base_url('index.php/rt/add')?>" class="btn btn-sm btn-info btn-square"><i class="fa fa-plus"></i> Tambah Penghuni</a>
+                      <a href="<?php echo base_url('index.php/hunian/add')?>" class="btn btn-sm btn-info btn-square"><i class="fa fa-plus"></i> Tambah Penghuni</a>
                     </div>
                   </div>
                   <table class="table table-hover table-dynamic" id="">

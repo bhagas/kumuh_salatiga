@@ -20,6 +20,9 @@
     <script src="<?php echo base_url(); ?>assets/plugins/select2/select2.min.js"></script> <!-- Select Inputs -->
     <!-- <script src="<?php echo base_url(); ?>assets/plugins/icheck/icheck.min.js"></script>  Checkbox & Radio Inputs -->
 
+        <script src="<?php echo base_url('assets/js/wicket.js') ?>" type="text/javascript"></script>
+        <script src="<?php echo base_url('assets/js/wicket-gmap3.js') ?>" type="text/javascript"></script>
+     
     <script src="<?php echo base_url(); ?>assets/js/application.js"></script> <!-- Main Application Script -->
     <script src="<?php echo base_url(); ?>assets/js/plugins.js"></script> <!-- Main Plugin Initialization Script -->
 

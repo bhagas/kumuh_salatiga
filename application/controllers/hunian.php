@@ -116,13 +116,19 @@ class Hunian extends CI_Controller {
 		else
 		{
 			$object  	= $_POST;
+			$geometry = $_POST['wkt'];
+			$geo['id_kecamatan'] = $_POST['id_kec'];
+			$geo['id_kelurahan'] = $_POST['id_kel'];
+			$geo['rt'] = $_POST['rt'];
+			$geo['rw'] = $_POST['rw'];
 
 			// $nama['foto_bangunan']= pathinfo($_FILES['foto_bangunan']['name'], PATHINFO_FILENAME);
 			// if($nama['foto_bangunan']!=""){
 			// 	$foto_bangunan 	=	$this->model_master->upload_foto('foto_bangunan', $nama['foto_bangunan']);
 			// 	 $object['foto_bangunan']  = substr($foto_bangunan, 0, -4);
 			// }
-		
+			$insert = $this->model_hunian->add_geo($geo, $geometry);
+			unset($object['wkt']);
 			$insert = $this->model_hunian->add($object);
 			if ($insert==true) {
 				redirect('hunian');
@@ -157,13 +163,19 @@ class Hunian extends CI_Controller {
 		else
 		{
 			$object  	= $_POST;
+			$geometry = $_POST['wkt'];
+			$geo['id_kecamatan'] = $_POST['id_kec'];
+			$geo['id_kelurahan'] = $_POST['id_kel'];
+			$geo['rt'] = $_POST['rt'];
+			$geo['rw'] = $_POST['rw'];
 
 			// $nama['foto_bangunan']= pathinfo($_FILES['foto_bangunan']['name'], PATHINFO_FILENAME);
 			// if($nama['foto_bangunan']!=""){
 			// 	$foto_bangunan 	=	$this->model_master->upload_foto('foto_bangunan', $nama['foto_bangunan']);
 			// 	 $object['foto_bangunan']  = substr($foto_bangunan, 0, -4);
 			// }
-		
+			$insert = $this->model_hunian->edit_geo($geo, $geometry);	
+			unset($object['wkt']);
 			$update = $this->model_hunian->edit($object);
 			if ($update==true) {
 				redirect('hunian');

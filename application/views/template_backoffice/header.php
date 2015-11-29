@@ -31,8 +31,9 @@
         <script src="<?php echo base_url(); ?>assets/plugins/jquery-ui/jquery-ui-1.11.2.min.js"></script>
         <script src="<?php echo base_url(); ?>assets/js/leaflet.js"></script>
         <script src="<?php echo base_url(); ?>assets/plugins/modernizr/modernizr-2.6.2-respond-1.1.0.min.js"></script>
-        <script src="http://maps.google.com/maps/api/js?v=3.2&sensor=false"></script>
-        <script src="<?php echo base_url(); ?>assets/js/google-leaf.js"></script>
+              <script src="http://maps.google.com/maps/api/js?v=3.2&sensor=false&libraries=drawing"></script>
+           <script src="<?php echo base_url(); ?>assets/js/peta.js"></script> <!-- Main Plugin Initialization Script -->
+ <script src="<?php echo base_url(); ?>assets/js/google-leaf.js"></script>
         <script src="<?php echo base_url(); ?>assets/js/Control.FullScreen.js"></script>
         <script src="<?php echo base_url(); ?>assets/js/L.Control.Locate.js" ></script>
         <script src="<?php echo base_url(); ?>assets/js/leaflet-routing-machine.js"></script>
@@ -48,7 +49,7 @@
         <script src="<?php echo base_url(); ?>assets/js/amcharts/pie.js"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/1.4.5/numeral.min.js"></script>
     </head>
-    <body class="fixed-topbar fixed-sidebar theme-sdtl color-green">
+    <body class="fixed-topbar fixed-sidebar theme-sdtl color-green" onload="app.gmap=app.init();">
         <!--[if lt IE 7]>
         <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
@@ -82,7 +83,7 @@
                                 <!-- <li><a href="<?php echo base_url('index.php/master/kabupaten') ?>"> Master Kabupaten</a></li> -->
                                 <li><a href="<?php echo base_url('index.php/kawasan') ?>"> Kawasan</a></li>
                                 <li><a href="<?php echo base_url('index.php/rt') ?>"> Data RT</a></li>
-                                <li><a href="<?php echo base_url('index.php/rt') ?>"> Data Hunian</a></li>
+                                <li><a href="<?php echo base_url('index.php/hunian') ?>"> Data Hunian</a></li>
                             </ul>
                         </li>
                           <li class="children">

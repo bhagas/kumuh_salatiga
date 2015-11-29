@@ -18,6 +18,7 @@
                     <div class="col-md-6">
                       <?php echo validation_errors(); ?>
                       <form role="form" role="form" method="post" action="<?php echo base_url('index.php/kawasan/submit') ?>">
+                      
                         <div class="form-group">
                           <div class="row">
                             <div class="col-md-12">

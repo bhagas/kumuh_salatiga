@@ -19,6 +19,7 @@
                       <?php echo validation_errors(); ?>
                       <form role="form" role="form" method="post" action="<?php echo base_url('index.php/kawasan/edit') ?>">
                         <input type="hidden" name="id" value="<?php echo $kawasan[0]['id'] ?>">
+                     
                         <div class="form-group">
                           <div class="row">
                             <div class="col-md-12">

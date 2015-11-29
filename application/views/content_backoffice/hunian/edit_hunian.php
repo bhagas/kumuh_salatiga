@@ -19,6 +19,24 @@
                       <?php echo validation_errors(); ?>
                       <form role="form" role="form" method="post" action="<?php echo base_url('index.php/hunian/edit') ?>">
                         <input type="hidden" name="id" value="<?php echo $hunian[0]['id'] ?>">
+                           <div class="form-group">
+                                     <fieldset style="margin-bottom:20px;">
+                            <div class="form-group">
+                                   <div class="col-xs-12 col-md-8" style="height:300px;" id="canvas">
+                                       
+                                   </div>
+                                   <div class="col-xs-12 col-md-4">
+                                        <div class="col-xs-12">
+                                            <textarea type="text" name="wkt" id="wkt" class="form-control" style="height:260px;"><?php echo $hunian[0]['wkt'] ?></textarea>
+                                        </div>
+                                        <div class="col-xs-12" style="margin-top:10px;">
+                                            <a href="javascript:void(0)" id="submit" onclick="app.clearMap();app.mapIt();" class="btn btn-info"><i class="fa fa-check"></i> Cek Peta</a>
+                                            <a href="javascript:void(0)" type="reset" id="reset" onclick="app.clearText();app.clearMap();" class="btn btn-warning"><i class="fa fa-eraser"></i> Clear Map</a>
+                                        </div>
+                                   </div>
+                           </div>
+                        </fieldset>
+                        </div>
                         <div class="form-group">
                           <div class="row">
                             <div class="col-md-12">
@@ -78,7 +96,7 @@
                               <select name="id_kel" id="desa">
                               <option value="">Pilih Kelurahan</option>
                                 <?php foreach ($kelurahan as $item): ?>
-                                <option value="<?php echo $item['id_kelurahan'] ?>" <?php if($hunian[0]['id_kel']==$item['id_kelurahan']){echo "selected";} ?>><?php echo $item['nama_kecamatan'] ?></option>
+                                <option value="<?php echo $item['id_kelurahan'] ?>" <?php if($hunian[0]['id_kel']==$item['id_kelurahan']){echo "selected";} ?>><?php echo $item['nama_kelurahan'] ?></option>
                               <?php endforeach?>
                               </select>
                             </div>
@@ -87,13 +105,13 @@
                         <div class="form-group">
                           <div class="row">
                             <div class="col-md-12">
-                              <label>hunian</label>
-                              <select name="hunian">
-                              <option value="">Pilih hunian</option>
+                              <label>RT</label>
+                              <select name="rt">
+                              <option value="">Pilih RT</option>
                               <?php 
                               for($i=1; $i<=30; $i++){
                                 echo '<option value="'.$i.'"';
-                                 if($hunian[0]['hunian']==$i) {echo "selected";};
+                                 if($hunian[0]['rt']==$i) {echo "selected";};
                                  echo '>'.$i.'</option>';
                               }
                               ?>
