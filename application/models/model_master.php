@@ -65,6 +65,74 @@ class Model_master extends CI_Model {
 		return $result;
 	}
 
+public function get($nama_tabel=false, $id=false)
+	{
+		$this->db->select('*');
+	//	$this->db->where('deleted', 0);
+		if ($id!=false) {
+			$this->db->where('id', $id);
+		}
+		$this->db->from($nama_tabel);
+		$query 	= $this->db->get();
+		$result = $query->result_array();
+		return $result;
+	}
+
+
+
+
+
+	public function add($object)
+	{
+		$nama_tabel = $object['nama_tabel'];
+		unset($object['nama_tabel']);
+		$query = $this->db->insert($nama_tabel, $object);
+
+		if ($query) {
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
+
+	public function edit($object)
+	{
+		//$object  	= $_POST;
+		$nama_tabel = $object['nama_tabel'];
+		unset($object['nama_tabel']);
+	
+		$this->db->where('id', $this->input->post('id'));
+		$query = $this->db->update($nama_tabel, $object);
+
+		if ($query) {
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
+
+	public function delete($nama_tabel, $id)
+	{
+		$this->db->where('id', $id);
+		$this->db->delete($nama_tabel); 
+	}
+
+	public function create($object)
+	{
+		
+
+		$query = $this->db->insert('tipologi_kawasan', $object);
+
+		if ($query) {
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
+	
 
 	
 

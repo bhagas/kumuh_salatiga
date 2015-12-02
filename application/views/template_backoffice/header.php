@@ -77,6 +77,35 @@
                                 <li><a href="<?php echo base_url('index.php/kelurahan/show') ?>"> Master Kelurahan</a></li>
                             </ul>
                         </li>
+                          <li class="nav-parent">
+                            <a href=""><i class="icon-note"></i><span data-translate="forms">Master Hunian </span><span class="fa arrow"></span></a>
+                            <ul class="children collapse">
+                                <!-- <li><a href="<?php echo base_url('index.php/master/kabupaten') ?>"> Master Kabupaten</a></li> -->
+                                <li><a href="<?php echo base_url('index.php/master/index/master_air_bersih') ?>">  air bersih</a></li>
+                                <li><a href="<?php echo base_url('index.php/master/index/master_atap') ?>">  atap</a></li>
+                                <li><a href="<?php echo base_url('index.php/master/index/master_dinding') ?>">  dinding</a></li>
+                                <li><a href="<?php echo base_url('index.php/master/index/master_fungsi') ?>">  fungsi</a></li>
+                                <li><a href="<?php echo base_url('index.php/master/index/master_hub_kk') ?>">  hubungan KK</a></li>
+                                <li><a href="<?php echo base_url('index.php/master/index/master_kolom') ?>">  Kolom</a></li>
+                                <li><a href="<?php echo base_url('index.php/master/index/master_kondisi') ?>">  kondisi</a></li>
+                                <li><a href="<?php echo base_url('index.php/master/index/master_kondisi_air_bersih') ?>">  kondisi air bersih</a></li>
+                                <li><a href="<?php echo base_url('index.php/master/index/master_kuda_kuda') ?>">  kuda kuda</a></li>
+                                <li><a href="<?php echo base_url('index.php/master/index/master_lancar') ?>">  lancar</a></li>
+                                <li><a href="<?php echo base_url('index.php/master/index/master_lantai') ?>">  lantai</a></li>
+                                <li><a href="<?php echo base_url('index.php/master/index/master_listrik') ?>">  listrik</a></li>
+                                <li><a href="<?php echo base_url('index.php/master/index/master_lokasi_sanitasi') ?>">  lokasi santasi</a></li>
+                                <li><a href="<?php echo base_url('index.php/master/index/master_milik_tanah') ?>">  kepemilikan tanah</a></li>
+                                <li><a href="<?php echo base_url('index.php/master/index/master_pembuangan_drainase') ?>">  pembuangan drainase</a></li>
+                                <li><a href="<?php echo base_url('index.php/master/index/master_pembuangan_sampah') ?>"> pembuangan sampah</a></li>
+                                <li><a href="<?php echo base_url('index.php/master/index/master_pendapatan_kapita') ?>"> pendapatan perkapita</a></li>
+                                <li><a href="<?php echo base_url('index.php/master/index/master_plafond') ?>"> plafond</a></li>
+                                <li><a href="<?php echo base_url('index.php/master/index/master_pondasi') ?>"> pondasi</a></li>
+                                <li><a href="<?php echo base_url('index.php/master/index/master_tipologi_kawasan') ?>"> tipologi kawasan</a></li>
+                                <li><a href="<?php echo base_url('index.php/master/index/master_karakteristik_kawasan') ?>"> Karakteristik Kawasan</a></li>
+                                <li><a href="<?php echo base_url('index.php/master/index/master_topografi') ?>"> topografi</a></li>
+                               
+                            </ul>
+                        </li>
                            <li class="nav-parent">
                             <a href=""><i class="icon-note"></i><span data-translate="forms">Data Kawasan </span><span class="fa arrow"></span></a>
                             <ul class="children collapse">

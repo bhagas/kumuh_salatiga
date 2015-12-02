@@ -41,7 +41,7 @@
                               <select name="karakteristik" >
                               <option value="">Pilih Karakteristik</option>
                               <?php foreach ($isi_karakteristik as $item): ?>
-                                <option value="<?php echo $item['id'] ?>"><?php echo $item['jenis'] ?></option>
+                                <option value="<?php echo $item['id'] ?>"><?php echo $item['isi'] ?></option>
                               <?php endforeach?>
                               </select>
                             </div>

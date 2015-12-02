@@ -70,7 +70,7 @@ class Tipologi_kawasan extends CI_Controller {
 			$data['isi_tipologi'] = $this->model_tipologi_kawasan->get_isi_tipologi();
 
 			$this->load->view('template_backoffice/header');
-			$this->load->view('content_backoffice/tipologi_kawasan/add_tipologi');
+			$this->load->view('content_backoffice/tipologi_kawasan/add_tipologi', $data);
 			$this->load->view('template_backoffice/footer');
 		}
 		else

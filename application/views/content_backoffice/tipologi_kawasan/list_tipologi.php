@@ -35,7 +35,7 @@
                         <?php $i=0; foreach ($tipologi as $item): ?>
                           <tr>
                             <td><?php echo $item['kawasan'][0]['nama_kawasan'] ?></td>
-                            <td><?php echo $item['isi_tipologi'][0]['jenis'] ?></td>
+                            <td><?php echo $item['isi_tipologi'][0]['isi'] ?></td>
                         
                             <td>
                               <div class="row">

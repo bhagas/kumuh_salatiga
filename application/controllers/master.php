@@ -406,6 +406,110 @@ public function get_nilai_kawasan($id_kawasan=false)
 			
 		$this->output->set_content_type('application/json')->set_output(json_encode($data));
 	}
+
+
+
+
+	public function index($nama_tabel=false, $id=false)
+	{
+		$data['master'] = $this->model_master->get($nama_tabel, $id);
+		$data['nama_tabel'][0]['isi'] = $nama_tabel;
+		if ($id!=false) {
+			$this->load->view('template_backoffice/header');
+			$this->load->view('content_backoffice/master/edit_master', $data);
+			$this->load->view('template_backoffice/footer');
+		}
+		else{
+			
+			$this->load->view('template_backoffice/header');
+			$this->load->view('content_backoffice/master/list_master', $data);
+			$this->load->view('template_backoffice/footer');
+			//	$this->output->set_content_type('application/json')->set_output(json_encode($data));
+	
+		}
+	}
+
+
+	public function add($nama_tabel=false)
+	{
+		$data['nama_tabel'][0]['isi'] = $nama_tabel;
+		$this->load->view('template_backoffice/header');
+		$this->load->view('content_backoffice/master/add_master',$data);
+		$this->load->view('template_backoffice/footer');
+	}
+
+	public function submit()
+	{
+
+		$this->form_validation->set_rules('isi', 'Keterangan', 'trim|required');
+		// $this->form_validation->set_rules('password', 'Password', 'trim|required|matches[password2]');
+		// $this->form_validation->set_rules('password2', 'Password Confirmation', 'trim|required');
+		
+		$this->form_validation->set_error_delimiters('<h6 class="w-500 alert bg-red">','</h6>');
+
+		if ($this->form_validation->run() == FALSE)
+		{
+		$nama_tabel['nama_tabel'][0]['isi'] = $_POST['nama_tabel'];
+			$this->load->view('template_backoffice/header');
+			$this->load->view('content_backoffice/master/add_master', $nama_tabel);
+			$this->load->view('template_backoffice/footer');
+		}
+		else
+		{
+			$object  	= $_POST;
+
+			$insert = $this->model_master->add($object);
+			if ($insert==true) {
+				redirect('master/index/'.$_POST['nama_tabel']);
+			}
+			else{
+				echo "gagal dimasukkan";
+			}
+			
+		}
+
+	}
+
+	public function edit()
+	{
+		$this->form_validation->set_rules('isi', 'Keterangan', 'trim|required');
+		// $this->form_validation->set_rules('password', 'Password', 'trim|required|matches[password2]');
+		// $this->form_validation->set_rules('password2', 'Password Confirmation', 'trim|required');
+		
+		$this->form_validation->set_error_delimiters('<h6 class="w-500 alert bg-red">','</h6>');
+		
+		if ($this->form_validation->run() == FALSE)
+		{
+			$data['master'] = $this->model_master->get($this->input->post('id'));
+			$data['nama_tabel'][0]['isi'] = $_POST['nama_tabel'];
+		
+			//$this->output->set_content_type('application/json')->set_output(json_encode($data));
+			$this->load->view('template_backoffice/header');
+			$this->load->view('content_backoffice/master/edit_master', $data);
+			$this->load->view('template_backoffice/footer');
+		}
+		else
+		{
+			$object  	= $_POST;
+
+			$update = $this->model_master->edit($object);
+			if ($update==true) {
+				redirect('master/index/'.$_POST['nama_tabel']);
+			}
+			else{
+				echo "gagal dimasukkan";
+			}
+			
+		}
+	}
+
+	public function delete($nama_tabel, $id)
+	{
+		$this->model_master->delete($nama_tabel, $id);
+		redirect('master/index/'.$nama_tabel);
+			}
+
+	
 }
 
 /* End of file jalan.php */

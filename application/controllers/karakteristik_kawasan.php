@@ -70,7 +70,7 @@ class Karakteristik_kawasan extends CI_Controller {
 			$data['isi_karakteristik'] = $this->model_karakteristik_kawasan->get_isi_karakteristik();
 
 			$this->load->view('template_backoffice/header');
-			$this->load->view('content_backoffice/karakteristik_kawasan/add_karakteristik');
+			$this->load->view('content_backoffice/karakteristik_kawasan/add_karakteristik', $data);
 			$this->load->view('template_backoffice/footer');
 		}
 		else

@@ -17,34 +17,17 @@
                   <div class="row">
                     <div class="col-md-6">
                       <?php echo validation_errors(); ?>
-                      <form role="form" role="form" method="post" action="<?php echo base_url('index.php/tipologi_kawasan/edit') ?>">
-                        <input type="hidden" name="id" value="<?php echo $tipologi[0]['id'] ?>">
+                      <form role="form" role="form" method="post" action="<?php echo base_url('index.php/master/edit') ?>">
+                        <input type="hidden" name="id" value="<?php echo $master[0]['id'] ?>">
+                         <input type="hidden" class="form-control" name="nama_tabel" value="<?php echo $nama_tabel[0]['isi']; ?>">
                         <div class="form-group">
-                          <div class="row">
+                           <div class="row">
                             <div class="col-md-12">
-                              <label>Nama Kawasan</label>
-                              <select name="id_kawasan" >
-                              <option value="">Pilih kawasan</option>
-                              <?php foreach ($kawasan as $item): ?>
-                                <option value="<?php echo $item['id'] ?>" <?php if($tipologi[0]['id_kawasan']==$item['id']){echo "selected";} ?>><?php echo $item['nama_kawasan'] ?></option>
-                              <?php endforeach?>
-                              </select>
+                              <label>Keterangan</label>
+                              <input type="text" class="form-control" name="isi" value="<?php echo $master[0]['isi']; ?>">
                             </div>
                           </div>
-                        </div>
-                       <div class="form-group">
-                          <div class="row">
-                            <div class="col-md-12">
-                              <label>tipologi</label>
-                              <select name="tipologi" >
-                              <option value="">Pilih tipologi</option>
-                              <?php foreach ($isi_tipologi as $item): ?>
-                                <option value="<?php echo $item['id'] ?>" <?php if($tipologi[0]['tipologi']==$item['id']){echo "selected";} ?>><?php echo $item['isi'] ?></option>
-                              <?php endforeach?>
-                              </select>
-                            </div>
                           </div>
-                        </div>
                      
                        
                         <div class="form-group">

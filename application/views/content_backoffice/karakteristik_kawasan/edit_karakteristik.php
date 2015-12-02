@@ -39,7 +39,7 @@
                               <select name="karakteristik" >
                               <option value="">Pilih Karakteristik</option>
                               <?php foreach ($isi_karakteristik as $item): ?>
-                                <option value="<?php echo $item['id'] ?>" <?php if($karakteristik[0]['karakteristik']==$item['id']){echo "selected";} ?>><?php echo $item['jenis'] ?></option>
+                                <option value="<?php echo $item['id'] ?>" <?php if($karakteristik[0]['karakteristik']==$item['id']){echo "selected";} ?>><?php echo $item['isi'] ?></option>
                               <?php endforeach?>
                               </select>
                             </div>
