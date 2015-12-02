@@ -33,6 +33,28 @@ class Model_hunian extends CI_Model {
 		$result = $query->result_array();
 		return $result;
 	}
+	public function get_hunian($rt=false, $rw=false, $id_kecamatan=false, $id_kelurahan=false)
+	{
+		$this->db->select('hunian.*');
+		$this->db->where('hunian.deleted', 0);
+		if ($rt!=false) {
+			$this->db->where('hunian.rt', $rt);
+		}
+		if ($rw!=false) {
+			$this->db->where('hunian.rw', $rw);
+		}
+		if ($id_kecamatan!=false) {
+			$this->db->where('hunian.id_kec', $id_kecamatan);
+		}
+		if ($id_kelurahan!=false) {
+			$this->db->where('hunian.id_kel', $id_kelurahan);
+		}
+		$this->db->from('hunian');
+		
+		$query 	= $this->db->get();
+		$result = $query->result_array();
+		return $result;
+	}
 	// public function get_rt_by_kawasan($id=false)
 	// {
 	// 	$this->db->select('*');

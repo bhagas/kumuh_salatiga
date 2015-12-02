@@ -331,7 +331,7 @@
                             
                            $.each(data.rt, function (a, item) {
                             //console.log(item.nilai_rt.data[0]);
-                              $('#kegiatan tbody').append('<tr><td>'+item.nilai_rt.data[0].rt+'</td><td>'+item.nilai_rt.data[0].rw+'</td><td>'+item.nilai_rt.data[0].tingkat+'</td><td >'+item.nilai_rt.data[0].prioritas+'</td><td>'+item.nilai_rt.data[0].legal+'</td><td>'+item.nilai_rt.data[0].penanganan+'</td></tr>');
+                              $('#kegiatan tbody').append('<tr><td>'+item.nilai_rt.data[0].rt+'</td><td>'+item.nilai_rt.data[0].rw+'</td><td>'+item.nilai_rt.data[0].tingkat+'</td><td >'+item.nilai_rt.data[0].prioritas+'</td><td>'+item.nilai_rt.data[0].legal+'</td><td>'+item.nilai_rt.data[0].penanganan+'</td><td><a href="#" onClick="hunian(\''+item.nilai_rt.data[0].rt+'\',\''+item.nilai_rt.data[0].rw+'\',\''+item.nilai_rt.data[0].id_kecamatan+'\',\''+item.nilai_rt.data[0].id_kelurahan+'\')">Detail</a></td></tr>');
                            
                            })
                        });
@@ -344,7 +344,18 @@
         	}
     	});
 	}
-
+  function hunian(rt, rw, id_kecamatan, id_kelurahan){
+    $.getJSON(root+"index.php/hunian/get_hunian/" + rt +"/"+rw+"/"+id_kecamatan+"/"+id_kelurahan, function (data) {
+                            $('#body_table_hunian').empty();
+                           $.each(data.data, function (a, item) {
+                           // console.log(item);
+                            //console.log(item.nilai_rt.data[0]);
+                             $('#hunian tbody').append('<tr><td>'+item.rt+'</td><td>'+item.rw+'</td><td>'+item.nama+'</td><td >'+item.alamat+'</td><td>'+item.jenis_pekerjaan+'</td></tr>');
+                           
+                           })
+                           $('#modal2').modal('show');
+                       });
+  }
   	//custom contro
   	L.Control.Kabupaten = L.Control.extend({
     	options: {
@@ -618,4 +629,37 @@ function tambah_titik(x, y){
       		</div>
     	</div><!-- /.modal-content -->
   	</div><!-- /.modal-dialog -->
+</div>
+<div class="modal fade bs-example-modal-lg" id="modal2">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Data Hunian</h4>
+          </div>
+          <div class="modal-body">
+           
+            <div class="row">
+                <div class="col-xs-12">
+                
+                  <table id="hunian" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                               <th>RT</th>
+                               <th>RW</th>
+                               <th>Nama</th>
+                               <th>Alamat</th>
+                               <th>Pekerjaan</th>
+                               
+                                <th>Aksi</th>
+                              
+                            </tr>
+                        </thead>
+                        <tbody id="body_table_hunian"></tbody>
+                    </table>
+                </div>
+            </div>
+          </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->

@@ -23,6 +23,13 @@ class Hunian extends CI_Controller {
 		//$this->output->set_content_type('application/json')->set_output(json_encode($output));
 		return $data['isi'];
 	}
+	public function get_hunian($rt=false, $rw=false, $id_kecamatan=false, $id_kelurahan=false)
+	{
+		$data['data'] = $this->model_hunian->get_hunian($rt, $rw, $id_kecamatan, $id_kelurahan);
+		
+		$this->output->set_content_type('application/json')->set_output(json_encode($data));
+		//return $data['isi'];
+	}
 	public function index($id=false)
 	{
 		$data['hunian'] = $this->model_hunian->get($id);
@@ -122,11 +129,123 @@ class Hunian extends CI_Controller {
 			$geo['rt'] = $_POST['rt'];
 			$geo['rw'] = $_POST['rw'];
 
-			// $nama['foto_bangunan']= pathinfo($_FILES['foto_bangunan']['name'], PATHINFO_FILENAME);
-			// if($nama['foto_bangunan']!=""){
-			// 	$foto_bangunan 	=	$this->model_master->upload_foto('foto_bangunan', $nama['foto_bangunan']);
-			// 	 $object['foto_bangunan']  = substr($foto_bangunan, 0, -4);
-			// }
+			$nama['foto_fungsi']= pathinfo($_FILES['foto_fungsi']['name'], PATHINFO_FILENAME);
+			if($nama['foto_fungsi']!=""){
+				$foto_fungsi 	=	$this->model_master->upload_foto('foto_fungsi', $nama['foto_fungsi']);
+				 $object['foto_fungsi']  = substr($foto_fungsi, 0, -4);
+			}
+			$nama['foto_r_tamu']= pathinfo($_FILES['foto_r_tamu']['name'], PATHINFO_FILENAME);
+			if($nama['foto_r_tamu']!=""){
+				$foto_r_tamu 	=	$this->model_master->upload_foto('foto_r_tamu', $nama['foto_r_tamu']);
+				 $object['foto_r_tamu']  = substr($foto_r_tamu, 0, -4);
+			}
+			$nama['foto_r_tidur']= pathinfo($_FILES['foto_r_tidur']['name'], PATHINFO_FILENAME);
+			if($nama['foto_r_tidur']!=""){
+				$foto_r_tidur 	=	$this->model_master->upload_foto('foto_r_tidur', $nama['foto_r_tidur']);
+				 $object['foto_r_tidur']  = substr($foto_r_tidur, 0, -4);
+			}
+			$nama['foto_dapur']= pathinfo($_FILES['foto_dapur']['name'], PATHINFO_FILENAME);
+			if($nama['foto_dapur']!=""){
+				$foto_dapur 	=	$this->model_master->upload_foto('foto_dapur', $nama['foto_dapur']);
+				 $object['foto_dapur']  = substr($foto_dapur, 0, -4);
+			}
+
+			$nama['foto_km_wc']= pathinfo($_FILES['foto_km_wc']['name'], PATHINFO_FILENAME);
+			if($nama['foto_km_wc']!=""){
+				$foto_km_wc 	=	$this->model_master->upload_foto('foto_km_wc', $nama['foto_km_wc']);
+				 $object['foto_km_wc']  = substr($foto_km_wc, 0, -4);
+			}
+			$nama['foto_r_lain']= pathinfo($_FILES['foto_r_lain']['name'], PATHINFO_FILENAME);
+			if($nama['foto_r_lain']!=""){
+				$foto_r_lain 	=	$this->model_master->upload_foto('foto_r_lain', $nama['foto_r_lain']);
+				 $object['foto_r_lain']  = substr($foto_r_lain, 0, -4);
+			}
+			$nama['foto_topografi']= pathinfo($_FILES['foto_topografi']['name'], PATHINFO_FILENAME);
+			if($nama['foto_topografi']!=""){
+				$foto_topografi 	=	$this->model_master->upload_foto('foto_topografi', $nama['foto_topografi']);
+				 $object['foto_topografi']  = substr($foto_topografi, 0, -4);
+			}
+			$nama['foto_lantai']= pathinfo($_FILES['foto_lantai']['name'], PATHINFO_FILENAME);
+			if($nama['foto_lantai']!=""){
+				$foto_lantai 	=	$this->model_master->upload_foto('foto_lantai', $nama['foto_lantai']);
+				 $object['foto_lantai']  = substr($foto_lantai, 0, -4);
+			}
+			$nama['foto_dinding']= pathinfo($_FILES['foto_dinding']['name'], PATHINFO_FILENAME);
+			if($nama['foto_dinding']!=""){
+				$foto_dinding 	=	$this->model_master->upload_foto('foto_dinding', $nama['foto_dinding']);
+				 $object['foto_dinding']  = substr($foto_dinding, 0, -4);
+			}
+			$nama['foto_atap']= pathinfo($_FILES['foto_atap']['name'], PATHINFO_FILENAME);
+			if($nama['foto_atap']!=""){
+				$foto_atap 	=	$this->model_master->upload_foto('foto_atap', $nama['foto_atap']);
+				 $object['foto_atap']  = substr($foto_atap, 0, -4);
+			}
+			$nama['foto_plafond']= pathinfo($_FILES['foto_plafond']['name'], PATHINFO_FILENAME);
+			if($nama['foto_plafond']!=""){
+				$foto_plafond 	=	$this->model_master->upload_foto('foto_plafond', $nama['foto_plafond']);
+				 $object['foto_plafond']  = substr($foto_plafond, 0, -4);
+			}
+			$nama['foto_pondasi']= pathinfo($_FILES['foto_pondasi']['name'], PATHINFO_FILENAME);
+			if($nama['foto_pondasi']!=""){
+				$foto_pondasi 	=	$this->model_master->upload_foto('foto_pondasi', $nama['foto_pondasi']);
+				 $object['foto_pondasi']  = substr($foto_pondasi, 0, -4);
+			}
+			$nama['foto_kolom']= pathinfo($_FILES['foto_kolom']['name'], PATHINFO_FILENAME);
+			if($nama['foto_kolom']!=""){
+				$foto_kolom 	=	$this->model_master->upload_foto('foto_kolom', $nama['foto_kolom']);
+				 $object['foto_kolom']  = substr($foto_kolom, 0, -4);
+			}
+			$nama['foto_kuda_kuda']= pathinfo($_FILES['foto_kuda_kuda']['name'], PATHINFO_FILENAME);
+			if($nama['foto_kuda_kuda']!=""){
+				$foto_kuda_kuda 	=	$this->model_master->upload_foto('foto_kuda_kuda', $nama['foto_kuda_kuda']);
+				 $object['foto_kuda_kuda']  = substr($foto_kuda_kuda, 0, -4);
+			}
+			$nama['foto_pintu']= pathinfo($_FILES['foto_pintu']['name'], PATHINFO_FILENAME);
+			if($nama['foto_pintu']!=""){
+				$foto_pintu 	=	$this->model_master->upload_foto('foto_pintu', $nama['foto_pintu']);
+				 $object['foto_pintu']  = substr($foto_pintu, 0, -4);
+			}
+			$nama['foto_jendela']= pathinfo($_FILES['foto_jendela']['name'], PATHINFO_FILENAME);
+			if($nama['foto_jendela']!=""){
+				$foto_jendela 	=	$this->model_master->upload_foto('foto_jendela', $nama['foto_jendela']);
+				 $object['foto_jendela']  = substr($foto_jendela, 0, -4);
+			}
+			$nama['foto_roaster']= pathinfo($_FILES['foto_roaster']['name'], PATHINFO_FILENAME);
+			if($nama['foto_roaster']!=""){
+				$foto_roaster 	=	$this->model_master->upload_foto('foto_roaster', $nama['foto_roaster']);
+				 $object['foto_roaster']  = substr($foto_roaster, 0, -4);
+			}
+			$nama['foto_air_bersih']= pathinfo($_FILES['foto_air_bersih']['name'], PATHINFO_FILENAME);
+			if($nama['foto_air_bersih']!=""){
+				$foto_air_bersih 	=	$this->model_master->upload_foto('foto_air_bersih', $nama['foto_air_bersih']);
+				 $object['foto_air_bersih']  = substr($foto_air_bersih, 0, -4);
+			}
+			$nama['foto_pembuangan_sampah']= pathinfo($_FILES['foto_pembuangan_sampah']['name'], PATHINFO_FILENAME);
+			if($nama['foto_pembuangan_sampah']!=""){
+				$foto_pembuangan_sampah 	=	$this->model_master->upload_foto('foto_pembuangan_sampah', $nama['foto_pembuangan_sampah']);
+				 $object['foto_pembuangan_sampah']  = substr($foto_pembuangan_sampah, 0, -4);
+			}
+			$nama['foto_saluran']= pathinfo($_FILES['foto_saluran']['name'], PATHINFO_FILENAME);
+			if($nama['foto_saluran']!=""){
+				$foto_saluran 	=	$this->model_master->upload_foto('foto_saluran', $nama['foto_saluran']);
+				 $object['foto_saluran']  = substr($foto_saluran, 0, -4);
+			}
+			$nama['foto_lantai_kmwc']= pathinfo($_FILES['foto_lantai_kmwc']['name'], PATHINFO_FILENAME);
+			if($nama['foto_lantai_kmwc']!=""){
+				$foto_lantai_kmwc 	=	$this->model_master->upload_foto('foto_lantai_kmwc', $nama['foto_lantai_kmwc']);
+				 $object['foto_lantai_kmwc']  = substr($foto_lantai_kmwc, 0, -4);
+			}
+			$nama['foto_dinding_kmwc']= pathinfo($_FILES['foto_dinding_kmwc']['name'], PATHINFO_FILENAME);
+			if($nama['foto_dinding_kmwc']!=""){
+				$foto_dinding_kmwc 	=	$this->model_master->upload_foto('foto_dinding_kmwc', $nama['foto_dinding_kmwc']);
+				 $object['foto_dinding_kmwc']  = substr($foto_dinding_kmwc, 0, -4);
+			}
+			$nama['foto_lokasi_sanitasi']= pathinfo($_FILES['foto_lokasi_sanitasi']['name'], PATHINFO_FILENAME);
+			if($nama['foto_lokasi_sanitasi']!=""){
+				$foto_lokasi_sanitasi 	=	$this->model_master->upload_foto('foto_lokasi_sanitasi', $nama['foto_lokasi_sanitasi']);
+				 $object['foto_lokasi_sanitasi']  = substr($foto_lokasi_sanitasi, 0, -4);
+			}
+
 			$insert = $this->model_hunian->add_geo($geo, $geometry);
 			unset($object['wkt']);
 			$insert = $this->model_hunian->add($object);
@@ -169,11 +288,122 @@ class Hunian extends CI_Controller {
 			$geo['rt'] = $_POST['rt'];
 			$geo['rw'] = $_POST['rw'];
 
-			// $nama['foto_bangunan']= pathinfo($_FILES['foto_bangunan']['name'], PATHINFO_FILENAME);
-			// if($nama['foto_bangunan']!=""){
-			// 	$foto_bangunan 	=	$this->model_master->upload_foto('foto_bangunan', $nama['foto_bangunan']);
-			// 	 $object['foto_bangunan']  = substr($foto_bangunan, 0, -4);
-			// }
+			$nama['foto_fungsi']= pathinfo($_FILES['foto_fungsi']['name'], PATHINFO_FILENAME);
+			if($nama['foto_fungsi']!=""){
+				$foto_fungsi 	=	$this->model_master->upload_foto('foto_fungsi', $nama['foto_fungsi']);
+				 $object['foto_fungsi']  = substr($foto_fungsi, 0, -4);
+			}
+			$nama['foto_r_tamu']= pathinfo($_FILES['foto_r_tamu']['name'], PATHINFO_FILENAME);
+			if($nama['foto_r_tamu']!=""){
+				$foto_r_tamu 	=	$this->model_master->upload_foto('foto_r_tamu', $nama['foto_r_tamu']);
+				 $object['foto_r_tamu']  = substr($foto_r_tamu, 0, -4);
+			}
+			$nama['foto_r_tidur']= pathinfo($_FILES['foto_r_tidur']['name'], PATHINFO_FILENAME);
+			if($nama['foto_r_tidur']!=""){
+				$foto_r_tidur 	=	$this->model_master->upload_foto('foto_r_tidur', $nama['foto_r_tidur']);
+				 $object['foto_r_tidur']  = substr($foto_r_tidur, 0, -4);
+			}
+			$nama['foto_dapur']= pathinfo($_FILES['foto_dapur']['name'], PATHINFO_FILENAME);
+			if($nama['foto_dapur']!=""){
+				$foto_dapur 	=	$this->model_master->upload_foto('foto_dapur', $nama['foto_dapur']);
+				 $object['foto_dapur']  = substr($foto_dapur, 0, -4);
+			}
+
+			$nama['foto_km_wc']= pathinfo($_FILES['foto_km_wc']['name'], PATHINFO_FILENAME);
+			if($nama['foto_km_wc']!=""){
+				$foto_km_wc 	=	$this->model_master->upload_foto('foto_km_wc', $nama['foto_km_wc']);
+				 $object['foto_km_wc']  = substr($foto_km_wc, 0, -4);
+			}
+			$nama['foto_r_lain']= pathinfo($_FILES['foto_r_lain']['name'], PATHINFO_FILENAME);
+			if($nama['foto_r_lain']!=""){
+				$foto_r_lain 	=	$this->model_master->upload_foto('foto_r_lain', $nama['foto_r_lain']);
+				 $object['foto_r_lain']  = substr($foto_r_lain, 0, -4);
+			}
+			$nama['foto_topografi']= pathinfo($_FILES['foto_topografi']['name'], PATHINFO_FILENAME);
+			if($nama['foto_topografi']!=""){
+				$foto_topografi 	=	$this->model_master->upload_foto('foto_topografi', $nama['foto_topografi']);
+				 $object['foto_topografi']  = substr($foto_topografi, 0, -4);
+			}
+			$nama['foto_lantai']= pathinfo($_FILES['foto_lantai']['name'], PATHINFO_FILENAME);
+			if($nama['foto_lantai']!=""){
+				$foto_lantai 	=	$this->model_master->upload_foto('foto_lantai', $nama['foto_lantai']);
+				 $object['foto_lantai']  = substr($foto_lantai, 0, -4);
+			}
+			$nama['foto_dinding']= pathinfo($_FILES['foto_dinding']['name'], PATHINFO_FILENAME);
+			if($nama['foto_dinding']!=""){
+				$foto_dinding 	=	$this->model_master->upload_foto('foto_dinding', $nama['foto_dinding']);
+				 $object['foto_dinding']  = substr($foto_dinding, 0, -4);
+			}
+			$nama['foto_atap']= pathinfo($_FILES['foto_atap']['name'], PATHINFO_FILENAME);
+			if($nama['foto_atap']!=""){
+				$foto_atap 	=	$this->model_master->upload_foto('foto_atap', $nama['foto_atap']);
+				 $object['foto_atap']  = substr($foto_atap, 0, -4);
+			}
+			$nama['foto_plafond']= pathinfo($_FILES['foto_plafond']['name'], PATHINFO_FILENAME);
+			if($nama['foto_plafond']!=""){
+				$foto_plafond 	=	$this->model_master->upload_foto('foto_plafond', $nama['foto_plafond']);
+				 $object['foto_plafond']  = substr($foto_plafond, 0, -4);
+			}
+			$nama['foto_pondasi']= pathinfo($_FILES['foto_pondasi']['name'], PATHINFO_FILENAME);
+			if($nama['foto_pondasi']!=""){
+				$foto_pondasi 	=	$this->model_master->upload_foto('foto_pondasi', $nama['foto_pondasi']);
+				 $object['foto_pondasi']  = substr($foto_pondasi, 0, -4);
+			}
+			$nama['foto_kolom']= pathinfo($_FILES['foto_kolom']['name'], PATHINFO_FILENAME);
+			if($nama['foto_kolom']!=""){
+				$foto_kolom 	=	$this->model_master->upload_foto('foto_kolom', $nama['foto_kolom']);
+				 $object['foto_kolom']  = substr($foto_kolom, 0, -4);
+			}
+			$nama['foto_kuda_kuda']= pathinfo($_FILES['foto_kuda_kuda']['name'], PATHINFO_FILENAME);
+			if($nama['foto_kuda_kuda']!=""){
+				$foto_kuda_kuda 	=	$this->model_master->upload_foto('foto_kuda_kuda', $nama['foto_kuda_kuda']);
+				 $object['foto_kuda_kuda']  = substr($foto_kuda_kuda, 0, -4);
+			}
+			$nama['foto_pintu']= pathinfo($_FILES['foto_pintu']['name'], PATHINFO_FILENAME);
+			if($nama['foto_pintu']!=""){
+				$foto_pintu 	=	$this->model_master->upload_foto('foto_pintu', $nama['foto_pintu']);
+				 $object['foto_pintu']  = substr($foto_pintu, 0, -4);
+			}
+			$nama['foto_jendela']= pathinfo($_FILES['foto_jendela']['name'], PATHINFO_FILENAME);
+			if($nama['foto_jendela']!=""){
+				$foto_jendela 	=	$this->model_master->upload_foto('foto_jendela', $nama['foto_jendela']);
+				 $object['foto_jendela']  = substr($foto_jendela, 0, -4);
+			}
+			$nama['foto_roaster']= pathinfo($_FILES['foto_roaster']['name'], PATHINFO_FILENAME);
+			if($nama['foto_roaster']!=""){
+				$foto_roaster 	=	$this->model_master->upload_foto('foto_roaster', $nama['foto_roaster']);
+				 $object['foto_roaster']  = substr($foto_roaster, 0, -4);
+			}
+			$nama['foto_air_bersih']= pathinfo($_FILES['foto_air_bersih']['name'], PATHINFO_FILENAME);
+			if($nama['foto_air_bersih']!=""){
+				$foto_air_bersih 	=	$this->model_master->upload_foto('foto_air_bersih', $nama['foto_air_bersih']);
+				 $object['foto_air_bersih']  = substr($foto_air_bersih, 0, -4);
+			}
+			$nama['foto_pembuangan_sampah']= pathinfo($_FILES['foto_pembuangan_sampah']['name'], PATHINFO_FILENAME);
+			if($nama['foto_pembuangan_sampah']!=""){
+				$foto_pembuangan_sampah 	=	$this->model_master->upload_foto('foto_pembuangan_sampah', $nama['foto_pembuangan_sampah']);
+				 $object['foto_pembuangan_sampah']  = substr($foto_pembuangan_sampah, 0, -4);
+			}
+			$nama['foto_saluran']= pathinfo($_FILES['foto_saluran']['name'], PATHINFO_FILENAME);
+			if($nama['foto_saluran']!=""){
+				$foto_saluran 	=	$this->model_master->upload_foto('foto_saluran', $nama['foto_saluran']);
+				 $object['foto_saluran']  = substr($foto_saluran, 0, -4);
+			}
+			$nama['foto_lantai_kmwc']= pathinfo($_FILES['foto_lantai_kmwc']['name'], PATHINFO_FILENAME);
+			if($nama['foto_lantai_kmwc']!=""){
+				$foto_lantai_kmwc 	=	$this->model_master->upload_foto('foto_lantai_kmwc', $nama['foto_lantai_kmwc']);
+				 $object['foto_lantai_kmwc']  = substr($foto_lantai_kmwc, 0, -4);
+			}
+			$nama['foto_dinding_kmwc']= pathinfo($_FILES['foto_dinding_kmwc']['name'], PATHINFO_FILENAME);
+			if($nama['foto_dinding_kmwc']!=""){
+				$foto_dinding_kmwc 	=	$this->model_master->upload_foto('foto_dinding_kmwc', $nama['foto_dinding_kmwc']);
+				 $object['foto_dinding_kmwc']  = substr($foto_dinding_kmwc, 0, -4);
+			}
+			$nama['foto_lokasi_sanitasi']= pathinfo($_FILES['foto_lokasi_sanitasi']['name'], PATHINFO_FILENAME);
+			if($nama['foto_lokasi_sanitasi']!=""){
+				$foto_lokasi_sanitasi 	=	$this->model_master->upload_foto('foto_lokasi_sanitasi', $nama['foto_lokasi_sanitasi']);
+				 $object['foto_lokasi_sanitasi']  = substr($foto_lokasi_sanitasi, 0, -4);
+			}
 			$insert = $this->model_hunian->edit_geo($geo, $geometry);	
 			unset($object['wkt']);
 			$update = $this->model_hunian->edit($object);
