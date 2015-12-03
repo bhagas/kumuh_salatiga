@@ -113,7 +113,7 @@
 <script>
 	var map = L.map('map', {
       	center: [-7.3341230513588, 110.48739960840001], 
-      	zoom: 12,
+      	zoom: 13,
       	zoomControl : false
   	});
   	var google_roadmap = new L.Google('ROADMAP');
@@ -272,7 +272,15 @@
       var id_kawasan = $("#kawasan").val();
        var id_kecamatan = $("#kecamatan").val();
            var id_kelurahan = $("#desa").val();
-      
+      if(!id_kawasan){
+        id_kawasan = 0;
+      }
+       if(!id_kecamatan){
+        id_kecamatan = 0;
+      }
+       if(!id_kelurahan){
+        id_kelurahan = 0;
+      }
       //root+"index.php/kawasan/kawasans/"+$('#kecamatan').val()+"/"+$("#desa").val()
       // $.getJSON( root+"index.php/kawasan/kawasans/"+id_kawasan, function( json ) {
       //     $('#kawasan').empty()
@@ -282,7 +290,7 @@
       //         $('#kawasan').append('<option value="'+item.id+'">'+item.nama_kawasan+'</option>')
       //     })
       // });
-
+ //console.log(root+"index.php/kawasan/geo/"+id_kawasan+"/"+id_kecamatan+"/"+id_kelurahan);
 
     	$.ajax({
         	'type': "GET",
@@ -291,6 +299,7 @@
         	'url': root+"index.php/kawasan/geo/"+id_kawasan+"/"+id_kecamatan+"/"+id_kelurahan,
         	'dataType': 'json',
         	success: function (data) {
+           
              $('#search_result').empty();
           		source = data;
           		//balikin kawasannya
@@ -299,11 +308,24 @@
                              var bounds = layer.getBounds();
                         // Get center of bounds
                         var center = bounds.getCenter();
-                      
+                    //  warna_total = ['#fee8c8' , '#fdbb84', '#e34a33'];
+          
                      // console.log(center);
 	                	// layer.bindPopup(feature.properties.id_lokasi);
-                   
-                   $('#search_result').append('<li><a href="javascript:void(0)" onclick="tambah_titik(' + center.lat + ', ' + center.lng + ')">' + feature.properties.nama_kawasan + '</a></li>');
+                    $.getJSON(root+"index.php/master/get_nilai_kawasan/" + feature.properties.id, function (data) {
+                      $.each(data, function (a, item) {
+                      var nilane= data.tingkat;
+                         if(nilane == 'Kumuh Berat'){
+                          layer.setStyle({fillColor: '#e34a33', color: '#e34a33'});
+                        }else if(nilane == 'Kumuh Sedang'){
+                          layer.setStyle({fillColor: '#fdbb84',color: '#fdbb84'});
+                        }else if(nilane == 'Kumuh Ringan'){
+                          layer.setStyle({fillColor: '#fee8c8', color: '#fee8c8'});
+                        }
+                      })
+                    })
+                     
+                   $('#search_result').append('<li><a href="javascript:void(0)" onclick="tambah_titik(' + center.lat + ', ' + center.lng + ')"> RT : ' + feature.properties.rt + '  RW : ' + feature.properties.rw + ' ' + feature.properties.nama_kecamatan + ' ' + feature.properties.nama_kelurahan + '</a></li>');
            
 	                     layer.on('click', function(e){
 
@@ -350,7 +372,7 @@
                            $.each(data.data, function (a, item) {
                            // console.log(item);
                             //console.log(item.nilai_rt.data[0]);
-                             $('#hunian tbody').append('<tr><td>'+item.rt+'</td><td>'+item.rw+'</td><td>'+item.nama+'</td><td >'+item.alamat+'</td><td>'+item.jenis_pekerjaan+'</td></tr>');
+                             $('#hunian tbody').append('<tr><td>'+item.rt+'</td><td>'+item.rw+'</td><td>'+item.nama+'</td><td >'+item.alamat+'</td><td>'+item.jenis_pekerjaan+'</td><td><a href="'+root+'index.php/hunian/index/'+item.id+'" target="_blank">Detail</a></td></tr>');
                            
                            })
                            $('#modal2').modal('show');
@@ -379,7 +401,7 @@
     	var div = L.DomUtil.create('div', 'info-legend'),
         	warna_total = ['#ffffff' , '#fef0d9', '#fdcc8a', '#fc8d59', '#e34a33', '#b30000'];
         	warna_total = ['#fee8c8' , '#fdbb84', '#e34a33'];
-        	labels = ['-', '-', '-'];
+        	labels = ['Kumuh Ringan', 'Kumuh Sedang', 'Kumuh Berat'];
 
     	// loop through our density intervals and generate a label with a colored square for each interval
     	for (var i = 0; i < warna_total.length; i++) {

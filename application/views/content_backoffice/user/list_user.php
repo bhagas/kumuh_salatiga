@@ -55,7 +55,7 @@
             <div class="copyright">
               <p class="pull-left sm-pull-reset">
                 <span>Copyright <span class="copyright">©</span> 2015 </span>
-                <span>Dinas Perindustrian & Perdagangan</span>.
+                <span>Dinas </span>.
               </p>
             </div>
           </div>

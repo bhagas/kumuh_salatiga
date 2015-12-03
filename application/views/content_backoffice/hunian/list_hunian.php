@@ -25,6 +25,7 @@
                   <table class="table table-hover table-dynamic" id="">
                     <thead>
                       <tr>
+                        <th>Kawasan</th>
                         <th>Kecamatan</th>
                         <th>Kelurahan</th>
                         <th>RT</th>
@@ -40,6 +41,7 @@
                     <tbody>
                         <?php $i=0; foreach ($hunian as $item): ?>
                           <tr>
+                            <td><?php echo $item['nama_kawasan'] ?></td>
                             <td><?php echo $item['kecamatan'] ?></td>
                             <td><?php echo $item['kelurahan'][0]['nama_kelurahan'] ?></td>
                             <td><?php echo $item['rt'] ?></td>

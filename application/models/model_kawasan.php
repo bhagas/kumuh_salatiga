@@ -74,21 +74,24 @@ class Model_kawasan extends CI_Model {
 	}
 	public function get_geo($id_kawasan, $id_kecamatan, $id_kelurahan)
 	{
-		if($id_kawasan !=false){
+		if($id_kawasan !=false and $id_kawasan != 0){
 			$this->db->where('kawasan_kumuh.id_kawasan', $id_kawasan);
 		
 		}
-		if($id_kecamatan !=false){
+		if($id_kecamatan !=false and $id_kecamatan !=0){
 			$this->db->where('kawasan_kumuh.id_kecamatan', $id_kecamatan);
 		
 		}
-		if($id_kelurahan !=false){
+		if($id_kelurahan !=false and $id_kelurahan !=0){
 			$this->db->where('kawasan_kumuh.id_kelurahan', $id_kelurahan);
 		
 		}
-		$this->db->select('asWkb(kawasan_kumuh.the_geom) as wkb,  data_kawasan.id, data_kawasan.nama_kawasan');
+		$this->db->select('asWkb(kawasan_kumuh.the_geom) as wkb, kawasan.id_kec, kawasan.id_kel, kawasan.rt, kawasan.rw,  data_kawasan.id, data_kawasan.nama_kawasan, master_kecamatan.nama_kecamatan, master_kelurahan.nama_kelurahan');
 		$this->db->from('kawasan_kumuh');
-		$this->db->join('data_kawasan', 'data_kawasan.id = kawasan_kumuh.id_kawasan', 'left');
+		$this->db->join('kawasan', 'kawasan.id_kec = kawasan_kumuh.id_kecamatan and kawasan.id_kel = kawasan_kumuh.id_kelurahan and kawasan.rt = kawasan_kumuh.rt and kawasan.rw = kawasan_kumuh.rw', 'left');
+		$this->db->join('master_kecamatan', 'kawasan_kumuh.id_kecamatan = master_kecamatan.id_kecamatan', 'left');
+		$this->db->join('master_kelurahan', 'kawasan_kumuh.id_kelurahan = master_kelurahan.id_kelurahan', 'left');
+		$this->db->join('data_kawasan', 'data_kawasan.id = kawasan.id_kawasan', 'left');
 		
 		$query = $this->db->get();
 		$result = $query->result_array();

@@ -21,13 +21,15 @@ class Model_hunian extends CI_Model {
 	}
 	public function get($id=false)
 	{
-		$this->db->select('hunian.*, AsText(kawasan_kumuh.the_geom) as wkt');
+		$this->db->select('hunian.*,  data_kawasan.nama_kawasan');
 		$this->db->where('hunian.deleted', 0);
 		if ($id!=false) {
 			$this->db->where('hunian.id', $id);
 		}
 		$this->db->from('hunian');
-		$this->db->join('kawasan_kumuh', 'hunian.id_kec = kawasan_kumuh.id_kecamatan and hunian.id_kel = kawasan_kumuh.id_kelurahan and hunian.rt = kawasan_kumuh.rt and hunian.rw = kawasan_kumuh.rw', 'left');
+		//$this->db->join('kawasan_kumuh', 'hunian.id_kec = kawasan_kumuh.id_kecamatan and hunian.id_kel = kawasan_kumuh.id_kelurahan and hunian.rt = kawasan_kumuh.rt and hunian.rw = kawasan_kumuh.rw', 'left');
+		$this->db->join('kawasan', 'hunian.id_kec = kawasan.id_kec and hunian.id_kel = kawasan.id_kel and hunian.rt = kawasan.rt and hunian.rw = kawasan.rw', 'left');
+		$this->db->join('data_kawasan', 'kawasan.id_kawasan = data_kawasan.id', 'left');
 		
 		$query 	= $this->db->get();
 		$result = $query->result_array();

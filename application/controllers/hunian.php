@@ -123,11 +123,7 @@ class Hunian extends CI_Controller {
 		else
 		{
 			$object  	= $_POST;
-			$geometry = $_POST['wkt'];
-			$geo['id_kecamatan'] = $_POST['id_kec'];
-			$geo['id_kelurahan'] = $_POST['id_kel'];
-			$geo['rt'] = $_POST['rt'];
-			$geo['rw'] = $_POST['rw'];
+		
 
 			$nama['foto_fungsi']= pathinfo($_FILES['foto_fungsi']['name'], PATHINFO_FILENAME);
 			if($nama['foto_fungsi']!=""){
@@ -225,16 +221,17 @@ class Hunian extends CI_Controller {
 				$foto_pembuangan_sampah 	=	$this->model_master->upload_foto('foto_pembuangan_sampah', $nama['foto_pembuangan_sampah']);
 				 $object['foto_pembuangan_sampah']  = substr($foto_pembuangan_sampah, 0, -4);
 			}
-			$nama['foto_saluran']= pathinfo($_FILES['foto_saluran']['name'], PATHINFO_FILENAME);
-			if($nama['foto_saluran']!=""){
-				$foto_saluran 	=	$this->model_master->upload_foto('foto_saluran', $nama['foto_saluran']);
-				 $object['foto_saluran']  = substr($foto_saluran, 0, -4);
-			}
 			$nama['foto_lantai_kmwc']= pathinfo($_FILES['foto_lantai_kmwc']['name'], PATHINFO_FILENAME);
 			if($nama['foto_lantai_kmwc']!=""){
 				$foto_lantai_kmwc 	=	$this->model_master->upload_foto('foto_lantai_kmwc', $nama['foto_lantai_kmwc']);
 				 $object['foto_lantai_kmwc']  = substr($foto_lantai_kmwc, 0, -4);
 			}
+			$nama['foto_saluran']= pathinfo($_FILES['foto_saluran']['name'], PATHINFO_FILENAME);
+			if($nama['foto_saluran']!=""){
+				$foto_saluran 	=	$this->model_master->upload_foto('foto_saluran', $nama['foto_saluran']);
+				 $object['foto_saluran']  = substr($foto_saluran, 0, -4);
+			}
+			
 			$nama['foto_dinding_kmwc']= pathinfo($_FILES['foto_dinding_kmwc']['name'], PATHINFO_FILENAME);
 			if($nama['foto_dinding_kmwc']!=""){
 				$foto_dinding_kmwc 	=	$this->model_master->upload_foto('foto_dinding_kmwc', $nama['foto_dinding_kmwc']);
@@ -246,8 +243,6 @@ class Hunian extends CI_Controller {
 				 $object['foto_lokasi_sanitasi']  = substr($foto_lokasi_sanitasi, 0, -4);
 			}
 
-			$insert = $this->model_hunian->add_geo($geo, $geometry);
-			unset($object['wkt']);
 			$insert = $this->model_hunian->add($object);
 			if ($insert==true) {
 				redirect('hunian');
@@ -282,11 +277,7 @@ class Hunian extends CI_Controller {
 		else
 		{
 			$object  	= $_POST;
-			$geometry = $_POST['wkt'];
-			$geo['id_kecamatan'] = $_POST['id_kec'];
-			$geo['id_kelurahan'] = $_POST['id_kel'];
-			$geo['rt'] = $_POST['rt'];
-			$geo['rw'] = $_POST['rw'];
+		
 
 			$nama['foto_fungsi']= pathinfo($_FILES['foto_fungsi']['name'], PATHINFO_FILENAME);
 			if($nama['foto_fungsi']!=""){
@@ -384,16 +375,17 @@ class Hunian extends CI_Controller {
 				$foto_pembuangan_sampah 	=	$this->model_master->upload_foto('foto_pembuangan_sampah', $nama['foto_pembuangan_sampah']);
 				 $object['foto_pembuangan_sampah']  = substr($foto_pembuangan_sampah, 0, -4);
 			}
-			$nama['foto_saluran']= pathinfo($_FILES['foto_saluran']['name'], PATHINFO_FILENAME);
-			if($nama['foto_saluran']!=""){
-				$foto_saluran 	=	$this->model_master->upload_foto('foto_saluran', $nama['foto_saluran']);
-				 $object['foto_saluran']  = substr($foto_saluran, 0, -4);
-			}
 			$nama['foto_lantai_kmwc']= pathinfo($_FILES['foto_lantai_kmwc']['name'], PATHINFO_FILENAME);
 			if($nama['foto_lantai_kmwc']!=""){
 				$foto_lantai_kmwc 	=	$this->model_master->upload_foto('foto_lantai_kmwc', $nama['foto_lantai_kmwc']);
 				 $object['foto_lantai_kmwc']  = substr($foto_lantai_kmwc, 0, -4);
 			}
+			$nama['foto_saluran']= pathinfo($_FILES['foto_saluran']['name'], PATHINFO_FILENAME);
+			if($nama['foto_saluran']!=""){
+				$foto_saluran 	=	$this->model_master->upload_foto('foto_saluran', $nama['foto_saluran']);
+				 $object['foto_saluran']  = substr($foto_saluran, 0, -4);
+			}
+			
 			$nama['foto_dinding_kmwc']= pathinfo($_FILES['foto_dinding_kmwc']['name'], PATHINFO_FILENAME);
 			if($nama['foto_dinding_kmwc']!=""){
 				$foto_dinding_kmwc 	=	$this->model_master->upload_foto('foto_dinding_kmwc', $nama['foto_dinding_kmwc']);
@@ -404,8 +396,6 @@ class Hunian extends CI_Controller {
 				$foto_lokasi_sanitasi 	=	$this->model_master->upload_foto('foto_lokasi_sanitasi', $nama['foto_lokasi_sanitasi']);
 				 $object['foto_lokasi_sanitasi']  = substr($foto_lokasi_sanitasi, 0, -4);
 			}
-			$insert = $this->model_hunian->edit_geo($geo, $geometry);	
-			unset($object['wkt']);
 			$update = $this->model_hunian->edit($object);
 			if ($update==true) {
 				redirect('hunian');

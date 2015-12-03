@@ -58,7 +58,7 @@
         <div class="copyright">
         <p class="pull-left sm-pull-reset">
             <span>Copyright <span class="copyright">©</span> 2015 </span>
-            <span>{{ Nama Dinas }}</span>.
+            <span>{{ Dinas }}</span>.
         </p>
         </div>
     </div>

@@ -6,7 +6,7 @@ var latitude = null ;
 
 //     datawkt = 'POINT(' + longitude + ' ' + latitude + ')';
 // });
-
+//var datawkt = document.getElementById('wkt').value;
 var app = (function () {
     return {
         features: [],
@@ -169,7 +169,7 @@ var app = (function () {
             var gmap;
 
             gmap = new google.maps.Map(document.getElementById('canvas'), {
-                center: new google.maps.LatLng(-6.926426847059551 , 109.37713623046875),
+                center: new google.maps.LatLng(-7.3271393981772786 , 110.50283431832213),
                 defaults: {
                     icon: root + 'js/red_dot.png',
                     shadow: root + 'js/dot_shadow.png',
@@ -199,8 +199,10 @@ var app = (function () {
                 if (!this.loaded) {
                     this.loaded = true;
                     // NOTE: We start with a MULTIPOLYGON; these aren't easily deconstructed, so we won't set this object to be editable in this example
-                    document.getElementById('wkt').value = datawkt;
-                    app.mapIt();
+                    if(document.getElementById('wkt').value != ""){
+                        app.mapIt();
+                    } 
+                    
                 }
             });
 

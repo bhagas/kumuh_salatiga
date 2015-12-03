@@ -10,12 +10,14 @@ class Model_rt extends CI_Model {
 
 	public function get($id=false)
 	{
-		$this->db->select('*');
-		$this->db->where('deleted', 0);
+		$this->db->select('kawasan.*, AsText(kawasan_kumuh.the_geom) as wkt');
+		$this->db->where('kawasan.deleted', 0);
 		if ($id!=false) {
-			$this->db->where('id', $id);
+			$this->db->where('kawasan.id', $id);
 		}
 		$this->db->from('kawasan');
+		$this->db->join('kawasan_kumuh', 'kawasan.id_kec = kawasan_kumuh.id_kecamatan and kawasan.id_kel = kawasan_kumuh.id_kelurahan and kawasan.rt = kawasan_kumuh.rt and kawasan.rw = kawasan_kumuh.rw', 'left');
+		
 		$query 	= $this->db->get();
 		$result = $query->result_array();
 		return $result;

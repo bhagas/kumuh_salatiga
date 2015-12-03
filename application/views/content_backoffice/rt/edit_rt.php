@@ -20,6 +20,25 @@
                       <form role="form" role="form" method="post" action="<?php echo base_url('index.php/rt/edit') ?>" enctype="multipart/form-data">
                         <input type="hidden" name="id" value="<?php echo $rt[0]['id'] ?>">
                         <div class="form-group">
+                                     <fieldset style="margin-bottom:20px;">
+                            <div class="form-group">
+                                   <div class="col-xs-12 col-md-8" style="height:300px;" id="canvas">
+                                       
+                                   </div>
+                                   <div class="col-xs-12 col-md-4">
+                                        <div class="col-xs-12">
+                                            <textarea type="text" name="wkt" id="wkt" class="form-control" style="height:260px;"><?php echo $rt[0]['wkt'] ?></textarea>
+                                        </div>
+                                        <div class="col-xs-12" style="margin-top:10px;">
+                                            <a href="javascript:void(0)" id="submit" onclick="app.clearMap();app.mapIt();" class="btn btn-info"><i class="fa fa-check"></i> Cek Peta</a>
+                                            <a href="javascript:void(0)" type="reset" id="reset" onclick="app.clearText();app.clearMap();" class="btn btn-warning"><i class="fa fa-eraser"></i> Clear Map</a>
+                                        </div>
+                                   </div>
+                           </div>
+
+                        </fieldset>
+                        </div>
+                        <div class="form-group">
                           <div class="row">
                             <div class="col-md-12">
                               <label>Nama Kawasan</label>
@@ -443,4 +462,9 @@
             </div>
           </div>
         </div>
+         <script>
+         // $( document ).ready(function() {
+         //                   app.clearMap();app.mapIt();
+         //                 });
+                           </script>
         <!-- END PAGE CONTENT -->
