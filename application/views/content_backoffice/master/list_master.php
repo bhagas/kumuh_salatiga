@@ -1,12 +1,12 @@
 <!-- BEGIN PAGE CONTENT -->
         <div class="page-content">
           <div class="header">
-            <h2>Manajemen <strong><?php echo $nama_tabel[0]['isi']; ?></strong></h2>
+            <h2>Manajemen <strong><?php echo str_replace("_", " ", $nama_tabel[0]['isi']); ?></strong></h2>
             <div class="breadcrumb-wrapper">
               <ol class="breadcrumb">
                 <li><a href="<?php echo base_url()?>">Home</a>
                 </li>
-                <li class="active">Manajemen <?php echo $nama_tabel[0]['isi']; ?></li>
+                <li class="active">Manajemen <?php echo str_replace("_", " ", $nama_tabel[0]['isi']); ?></li>
               </ol>
             </div>
           </div>

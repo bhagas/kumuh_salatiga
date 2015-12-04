@@ -1,12 +1,12 @@
 <!-- BEGIN PAGE CONTENT  -->
         <div class="page-content page-wizard">
           <div class="header">
-            <h2>Tambah <strong> <?php echo $nama_tabel[0]['isi']; ?></strong></h2>
+            <h2>Tambah <strong> <?php echo str_replace("_", " ", $nama_tabel[0]['isi']) ?></strong></h2>
             <div class="breadcrumb-wrapper">
               <ol class="breadcrumb">
                 <li><a href="<?php echo base_url()?>">Home</a
                 </li>
-                <li class="active">Tambah Data <?php echo $nama_tabel[0]['isi']; ?></li>
+                <li class="active">Tambah Data <?php echo str_replace("_", " ", $nama_tabel[0]['isi']) ?></li>
               </ol>
             </div>
           </div>
