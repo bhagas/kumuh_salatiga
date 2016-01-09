@@ -17,9 +17,10 @@
                   <div class="row">
                     <div class="col-md-6">
                       <?php echo validation_errors(); ?>
-                      <form role="form" role="form" method="post" action="<?php echo base_url('index.php/hunian/edit') ?>" enctype="multipart/form-data">
+                      <form class="wizard" role="form" role="form" method="post" action="<?php echo base_url('index.php/hunian/edit') ?>" enctype="multipart/form-data">
                         <input type="hidden" name="id" value="<?php echo $hunian[0]['id'] ?>">
-                           
+                               <fieldset>
+                         <legend>1</legend>
                         <div class="form-group">
                           <div class="row">
                             <div class="col-md-12">
@@ -128,6 +129,9 @@
                             </div>
                           </div>
                           </div>
+                             </fieldset>
+                          <fieldset>
+        <legend>2</legend>
                            <div class="form-group">
                           <div class="row">
                             <div class="col-md-12">
@@ -240,6 +244,9 @@
                             </div>
                           </div>
                           </div>
+                           </fieldset>
+                          <fieldset>
+        <legend>3</legend>
                             <div class="row">
                             <div class="col-md-12">
                               <label>Pemilik Tanah</label>
@@ -697,6 +704,9 @@
                             </div>
                           </div>
                           </div>
+                           </fieldset>
+                          <fieldset>
+        <legend>4</legend>
                            <div class="row">
                             <div class="col-md-12">
                               <label>Persepsi Hunian</label>
@@ -981,6 +991,7 @@
                             </div>
                           </div>
                         </div>
+                           </fieldset>
                       </form>
                     </div>
                   </div>

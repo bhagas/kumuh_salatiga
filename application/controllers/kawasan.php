@@ -59,6 +59,7 @@ class Kawasan extends CI_Controller {
 		$kawasan['nama_kawasan'] = $data['data'][0]['nama_kawasan'];
 		$kawasan['sk_penetapan'] = $data['data'][0]['sk_penetapan'];
 		$kawasan['nilai_total'] = 0;
+		//$kawasan['nilai'] = 0;
 		$kawasan['nilai_pertimbangan_total'] = 0;
 		$kawasan['nilai_legal_total'] = 0;
 
@@ -91,15 +92,19 @@ class Kawasan extends CI_Controller {
 		 	$data['data'][$i]['nilai'] = $data['data'][$i]['nilai'] + $data['data'][$i]['prasarana_bakar'] + $data['data'][$i]['sarana_bakar'];
 			if($data['data'][$i]['nilai'] <= 34){
 				$data['data'][$i]['tingkat'] = "Kumuh Ringan";
-			}else if( $data['data'][$i]['nilai'] >= 35 && $data['data'][$i]['nilai'] <= 54){
+			}else if( $data['data'][$i]['nilai'] > 34 && $data['data'][$i]['nilai'] < 55){
 				$data['data'][$i]['tingkat'] = "Kumuh Sedang";
 			}else if($data['data'][$i]['nilai'] >= 55){
 					$data['data'][$i]['tingkat'] = "Kumuh Berat";				
 			}
+			//	$this->output->set_content_type('application/json')->set_output(json_encode($data['data'][0]['tingkat']));
+	
 			$kawasan['nilai_total'] = $kawasan['nilai_total'] + $data['data'][$i]['nilai'];
 		
 			//end
 			//prioritas penaganan
+			$item['kepadatan_penduduk'] =explode(".", $item['kepadatan_penduduk']);
+			$item['kepadatan_penduduk'] = $item['kepadatan_penduduk'][0];
 			$data['data'][$i]['kawasan_strategis'] = $this->get_nilai_prioritas($item['kawasan_strategis'], "kawasan_strategis");
 			$data['data'][$i]['kepadatan_penduduk'] = $this->get_nilai_prioritas($item['kepadatan_penduduk'], "kepadatan_penduduk");
 			$data['data'][$i]['potensi_sosek'] = $this->get_nilai_prioritas($item['potensi_sosek'], "potensi_sosek");
@@ -108,15 +113,17 @@ class Kawasan extends CI_Controller {
 
 			$data['data'][$i]['nilai_pertimbangan'] = $data['data'][$i]['kawasan_strategis'] + $data['data'][$i]['kepadatan_penduduk'] + $data['data'][$i]['potensi_sosek'] + $data['data'][$i]['dukungan_masyarakat'];
 			$data['data'][$i]['nilai_pertimbangan'] = $data['data'][$i]['nilai_pertimbangan'] + $data['data'][$i]['komitmen_pemda'];
+			
+			
 			if($data['data'][$i]['nilai_pertimbangan'] <= 11){
 				$data['data'][$i]['pertimbangan'] = "Rendah";
-			}else if( $data['data'][$i]['nilai_pertimbangan'] >= 12 && $data['data'][$i]['nilai_pertimbangan'] <= 18){
+			}else if( $data['data'][$i]['nilai_pertimbangan'] > 11 && $data['data'][$i]['nilai_pertimbangan'] < 25){
 				$data['data'][$i]['pertimbangan'] = "Sedang";
 			}else if($data['data'][$i]['nilai_pertimbangan'] >= 25){
 					$data['data'][$i]['pertimbangan'] = "Tinggi";				
 			}
 				$kawasan['nilai_pertimbangan_total'] = $kawasan['nilai_pertimbangan_total'] + $data['data'][$i]['nilai_pertimbangan'];
-		
+			
 			//end
 			// legalitas
 			if($item['status_tanah'] == 1){
@@ -194,16 +201,18 @@ class Kawasan extends CI_Controller {
 			$kawasan['nilai_total'] = $kawasan['nilai_total'] / $a;
 			if($kawasan['nilai_total'] <= 34){
 				$kawasan['tingkat'] = "Kumuh Ringan";
-			}else if( $kawasan['nilai_total'] >= 35 && $kawasan['nilai_total'] <= 54){
+			}else if( $kawasan['nilai_total'] > 34 && $kawasan['nilai_total'] < 55){
 				$kawasan['tingkat'] = "Kumuh Sedang";
 			}else if($kawasan['nilai_total'] >= 55){
 					$kawasan['tingkat'] = "Kumuh Berat";				
 			}
+					//	$this->output->set_content_type('application/json')->set_output(json_encode($kawasan['tingkat']));
+	
 			//pertimbangan
 			$kawasan['nilai_pertimbangan_total'] = $kawasan['nilai_pertimbangan_total'] / $a;
 			if($kawasan['nilai_pertimbangan_total'] <= 11){
 				$kawasan['pertimbangan'] = "Rendah";
-			}else if( $kawasan['nilai_pertimbangan_total'] >= 12 && $kawasan['nilai_pertimbangan_total'] <= 18){
+			}else if( $kawasan['nilai_pertimbangan_total'] > 11 && $kawasan['nilai_pertimbangan_total'] < 25){
 				$kawasan['pertimbangan'] = "Sedang";
 			}else if($data['data'][$i]['nilai_pertimbangan'] >= 25){
 					$kawasan['pertimbangan'] = "Tinggi";				

@@ -13,6 +13,7 @@
         <link href="<?php echo base_url(); ?>assets/css/leaflet.css" rel="stylesheet">
         <link href="<?php echo base_url(); ?>assets/css/animate.css" rel="stylesheet">
         <link href="<?php echo base_url(); ?>assets/css/Control.FullScreen.css" rel="stylesheet">
+        <link href="<?php echo base_url(); ?>assets/plugins/step-form-wizard/css/step-form-wizard.css" rel="stylesheet">
         <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css"/>
         <!-- BEGIN PAGE STYLE -->
         <!-- <link href="<?php echo base_url(); ?>assets/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.standalone.min.css" rel="stylesheet"> -->
@@ -119,6 +120,10 @@
                         </li>
                           <li class="children">
                             <a href="<?php echo base_url('index.php/peta') ?>"><i class="icon-note"></i><span data-translate="forms">PETA </span><span class="fa arrow"></span></a>
+                           
+                        </li>
+                         <li class="children">
+                            <a href="<?php echo base_url('index.php/statistik') ?>"><i class="icon-note"></i><span data-translate="forms">STATISTIK </span><span class="fa arrow"></span></a>
                            
                         </li>
                         <li class="nav-parent">

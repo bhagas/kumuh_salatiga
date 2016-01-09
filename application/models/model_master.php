@@ -42,6 +42,7 @@ class Model_master extends CI_Model {
 		$result = $query->result_array();
 		return $result;
 	}
+
 	public function get_kawasan($id_kawasan)
 	{
 		$this->db->select('kawasan.*, data_kawasan.*');

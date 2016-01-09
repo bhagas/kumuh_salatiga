@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Rt extends CI_Controller {
+class Statistik extends CI_Controller {
 
 	public function __construct()
 	{
@@ -8,13 +8,11 @@ class Rt extends CI_Controller {
 		if (!$this->session->userdata('is_logged_in')) {
 			redirect(base_url('index.php/home'));
 		}
-		$this->load->model('model_rt');
-		$this->load->model('model_master');
-		$this->load->model('model_kecamatan');
-		$this->load->model('model_kelurahan');
 		$this->load->model('model_kawasan');
-		$this->load->model('model_hunian');
-				}
+		$this->load->model('model_master');
+		$this->load->model('model_statistik');
+			$this->load->model('model_kecamatan');
+	}
 
 	public function get_nilai_kumuh($nilai=false, $nama_tabel=false)
 	{
@@ -26,8 +24,8 @@ class Rt extends CI_Controller {
 				$output['ket'] = $item['ket'];
 				break;
 			}else{
-				$output['nilai'] = 1;
-				$output['ket'] = "Nilai berada dibawah ketentuan";
+				$output['nilai'] = 0;
+				$output['ket'] = "Bukan Kawasan Kumuh";
 				
 			}
 		}	
@@ -45,7 +43,7 @@ class Rt extends CI_Controller {
 				$output['ket'] = $item['ket'];
 				break;
 			}else{
-				$output['nilai'] = 1;
+				$output['nilai'] = 0;
 				$output['ket'] = "Nilai berada dibawah / diatas ketentuan";
 	
 				
@@ -54,12 +52,18 @@ class Rt extends CI_Controller {
 		//$this->output->set_content_type('application/json')->set_output(json_encode($output));
 		return $output['nilai'];
 	}
-	public function get_nilai_rt($id_rt=false)
+	public function get_nilai_kawasan_kecamatan($id_kawasan=false)
 	{
 
-		$data['data'] = $this->model_master->get_kawasan_by_id($id_rt);
+		$data['data'] = $this->model_master->get_kawasan($id_kawasan);
 		if($data['data']){
 		$i=0;
+		$kawasan['nama_kawasan'] = $data['data'][0]['nama_kawasan'];
+		$kawasan['sk_penetapan'] = $data['data'][0]['sk_penetapan'];
+		$kawasan['nilai_total'] = 0;
+		//$kawasan['nilai'] = 0;
+		$kawasan['nilai_pertimbangan_total'] = 0;
+		$kawasan['nilai_legal_total'] = 0;
 
 		foreach ($data['data'] as $item) {
 			//tingkat kekumuhan
@@ -95,9 +99,14 @@ class Rt extends CI_Controller {
 			}else if($data['data'][$i]['nilai'] >= 55){
 					$data['data'][$i]['tingkat'] = "Kumuh Berat";				
 			}
+			//	$this->output->set_content_type('application/json')->set_output(json_encode($data['data'][0]['tingkat']));
+	
+			$kawasan['nilai_total'] = $kawasan['nilai_total'] + $data['data'][$i]['nilai'];
 		
 			//end
 			//prioritas penaganan
+			$item['kepadatan_penduduk'] =explode(".", $item['kepadatan_penduduk']);
+			$item['kepadatan_penduduk'] = $item['kepadatan_penduduk'][0];
 			$data['data'][$i]['kawasan_strategis'] = $this->get_nilai_prioritas($item['kawasan_strategis'], "kawasan_strategis");
 			$data['data'][$i]['kepadatan_penduduk'] = $this->get_nilai_prioritas($item['kepadatan_penduduk'], "kepadatan_penduduk");
 			$data['data'][$i]['potensi_sosek'] = $this->get_nilai_prioritas($item['potensi_sosek'], "potensi_sosek");
@@ -106,6 +115,8 @@ class Rt extends CI_Controller {
 
 			$data['data'][$i]['nilai_pertimbangan'] = $data['data'][$i]['kawasan_strategis'] + $data['data'][$i]['kepadatan_penduduk'] + $data['data'][$i]['potensi_sosek'] + $data['data'][$i]['dukungan_masyarakat'];
 			$data['data'][$i]['nilai_pertimbangan'] = $data['data'][$i]['nilai_pertimbangan'] + $data['data'][$i]['komitmen_pemda'];
+			
+			
 			if($data['data'][$i]['nilai_pertimbangan'] <= 11){
 				$data['data'][$i]['pertimbangan'] = "Rendah";
 			}else if( $data['data'][$i]['nilai_pertimbangan'] > 11 && $data['data'][$i]['nilai_pertimbangan'] < 25){
@@ -113,7 +124,8 @@ class Rt extends CI_Controller {
 			}else if($data['data'][$i]['nilai_pertimbangan'] >= 25){
 					$data['data'][$i]['pertimbangan'] = "Tinggi";				
 			}
-		
+				$kawasan['nilai_pertimbangan_total'] = $kawasan['nilai_pertimbangan_total'] + $data['data'][$i]['nilai_pertimbangan'];
+			
 			//end
 			// legalitas
 			if($item['status_tanah'] == 1){
@@ -138,6 +150,7 @@ class Rt extends CI_Controller {
 			}else{
 				$data['data'][$i]['legal'] = "ILEGAL";
 			}
+			$kawasan['nilai_legal_total'] = $kawasan['nilai_legal_total'] + $data['data'][$i]['nilai_legal'];
 			//end
 			//nilai total
 			if($data['data'][$i]['tingkat'] == "Kumuh Berat" && $data['data'][$i]['pertimbangan'] == "Tinggi"){
@@ -183,212 +196,115 @@ class Rt extends CI_Controller {
 			} 
 		 $i++;
 		}	
-	}else{
-		//$data['nama_kawasan'] = '-';
-		//$data['sk_penetapan'] = '-';
-		$data['nilai'] = 0;
+
+		//ngitung kawasan
+			$a = $i;
+			//tingkat kumuh
+			$kawasan['nilai_total'] = $kawasan['nilai_total'] / $a;
+			if($kawasan['nilai_total'] <= 34){
+				$kawasan['tingkat'] = "Kumuh Ringan";
+			}else if( $kawasan['nilai_total'] > 34 && $kawasan['nilai_total'] < 55){
+				$kawasan['tingkat'] = "Kumuh Sedang";
+			}else if($kawasan['nilai_total'] >= 55){
+					$kawasan['tingkat'] = "Kumuh Berat";				
+			}
+					//	$this->output->set_content_type('application/json')->set_output(json_encode($kawasan['tingkat']));
 	
-		$data['penanganan'] = '-';
-		$data['legal'] = '-';
-		$data['prioritas'] = '-';
-		$data['pertimbangan'] = '-';
-		$data['tingkat'] = '-';
-	}
-			
-		//$this->output->set_content_type('application/json')->set_output(json_encode($data));
-		return $data;
+			//pertimbangan
+			$kawasan['nilai_pertimbangan_total'] = $kawasan['nilai_pertimbangan_total'] / $a;
+			if($kawasan['nilai_pertimbangan_total'] <= 11){
+				$kawasan['pertimbangan'] = "Rendah";
+			}else if( $kawasan['nilai_pertimbangan_total'] > 11 && $kawasan['nilai_pertimbangan_total'] < 25){
+				$kawasan['pertimbangan'] = "Sedang";
+			}else if($data['data'][$i]['nilai_pertimbangan'] >= 25){
+					$kawasan['pertimbangan'] = "Tinggi";				
+			}
+
+			//prioritas
+			if($kawasan['tingkat'] == "Kumuh Berat" && $kawasan['pertimbangan'] == "Tinggi"){
+				$kawasan['prioritas'] = 1;
+			}else if($kawasan['tingkat'] == "Kumuh Sedang" && $kawasan['pertimbangan'] == "Tinggi"){
+				$kawasan['prioritas'] = 2;
+			}else if($kawasan['tingkat'] == "Kumuh Ringan" && $kawasan['pertimbangan'] == "Tinggi"){
+				$kawasan['prioritas'] = 3;
+			}else if($kawasan['tingkat'] == "Kumuh Berat" && $kawasan['pertimbangan'] == "Sedang"){
+				$kawasan['prioritas'] = 4;
+			}else if($kawasan['tingkat'] == "Kumuh Sedang" && $kawasan['pertimbangan'] == "Sedang"){
+				$kawasan['prioritas'] = 5;
+			}else if($kawasan['tingkat'] == "Kumuh Ringan" && $kawasan['pertimbangan'] == "Sedang"){
+				$kawasan['prioritas'] = 6;
+			}else if($kawasan['tingkat'] == "Kumuh Berat" && $kawasan['pertimbangan'] == "Rendah"){
+				$kawasan['prioritas'] = 7;
+			}else if($kawasan['tingkat'] == "Kumuh Sedang" && $kawasan['pertimbangan'] == "Rendah"){
+				$kawasan['prioritas'] = 8;
+			}else if($kawasan['tingkat'] == "Kumuh Ringan" && $kawasan['pertimbangan'] == "Rendah"){
+				$kawasan['prioritas'] = 9;
+			}
+			//legalitas
+			if($kawasan['nilai_legal_total'] >= 1){
+				$kawasan['legal'] = "LEGAL";
+			}else{
+				$kawasan['legal'] = "ILEGAL";
+			}
+			//penanganan
+			if($kawasan['prioritas'] == 1 or  $kawasan['prioritas'] == 4 or $kawasan['prioritas'] == 7){
+				if($kawasan['legal'] == "LEGAL"){
+					$kawasan['penanganan'] = "Pemukiman Kembali atau Peremajaan";
+				}else if($kawasan['legal'] == "ILEGAL"){
+					$kawasan['penanganan'] = "Pemukiman Kembali atau Legalisasi Lahan lalu Peremajaan";
+				}
+			}else if($kawasan['prioritas'] == 2 or  $kawasan['prioritas'] == 5 or $kawasan['prioritas'] == 8){
+				if($kawasan['legal'] == "LEGAL"){
+					$kawasan['penanganan'] = "Peremajaan";
+				}else if($kawasan['legal'] == "ILEGAL"){
+					$kawasan['penanganan'] = "Pemukiman Kembali atau Legalisasi Lahan lalu Peremajaan";
+				}
+			} else if($kawasan['prioritas'] == 3 or  $kawasan['prioritas'] == 6 or $kawasan['prioritas'] == 9){
+				if($kawasan['legal'] == "LEGAL"){
+					$kawasan['penanganan'] = "Pemugaran";
+				}else if($kawasan['legal'] == "ILEGAL"){
+					$kawasan['penanganan'] = "Pemukiman Kembali atau Legalisasi Lahan lalu Pemugaran";
+				}
+			}
+		}else{
+		$kawasan['nama_kawasan'] = '-';
+		$kawasan['sk_penetapan'] = '-';
+		$kawasan['nilai_total'] = 0;
+		$kawasan['nilai_pertimbangan_total'] = 0;
+		$kawasan['nilai_legal_total'] = 0;
+		$kawasan['penanganan'] = '-';
+		$kawasan['legal'] = '-';
+		$kawasan['prioritas'] = '-';
+		$kawasan['pertimbangan'] = '-';
+		$kawasan['tingkat'] = '-';
+		}
+		//$this->output->set_content_type('application/json')->set_output(json_encode($kawasan));
+			return $kawasan;
 	}
 
 	public function index($id=false)
 	{
-		$data['rt'] = $this->model_rt->get($id);
-
-		if ($id!=false) {
-			$data['kecamatan'] = $this->model_kecamatan->get_kecamatan();
-			$data['kelurahan'] = $this->model_kelurahan->get_kelurahan();
-			$data['kawasan'] = $this->model_kawasan->get();
-			$this->load->view('template_backoffice/header');
-			$this->load->view('content_backoffice/rt/edit_rt', $data);
-			$this->load->view('template_backoffice/footer');
-		}
-		else{
-			for ($i=0; $i < count($data['rt']); $i++) { 
-				$data['rt'][$i]['nilai_rt'] = $this->get_nilai_rt($data['rt'][$i]['id']);
-				$data['rt'][$i]['kecamatan'] = $this->model_kecamatan->get_nama_kecamatan($data['rt'][$i]['id_kec']);
-				$data['rt'][$i]['kelurahan'] = $this->model_kelurahan->get_kelurahan($data['rt'][$i]['id_kel']);
-					//echo $data['kawasan'][$i]['id'];
-			}
-			$this->load->view('template_backoffice/header');
-			$this->load->view('content_backoffice/rt/list_rt', $data);
-			$this->load->view('template_backoffice/footer');
-			//	$this->output->set_content_type('application/json')->set_output(json_encode($data));
-	
-		}
-	}
-
-	public function get_rt_by_kawasan($id=false)
-	{
-		$data['rt'] = $this->model_rt->get_rt_by_kawasan($id);
-
-	
-			for ($i=0; $i < count($data['rt']); $i++) { 
-				$data['rt'][$i]['nilai_rt'] = $this->get_nilai_rt($data['rt'][$i]['id']);
-				$data['rt'][$i]['kecamatan'] = $this->model_kecamatan->get_nama_kecamatan($data['rt'][$i]['id_kec']);
-				$data['rt'][$i]['kelurahan'] = $this->model_kelurahan->get_kelurahan($data['rt'][$i]['id_kel']);
-					//echo $data['kawasan'][$i]['id'];
-			}
-				$this->output->set_content_type('application/json')->set_output(json_encode($data));
-	
-		
-	}
-
-	public function add()
-	{
+		$nilai = 0;
 		$data['kecamatan'] = $this->model_kecamatan->get_kecamatan();
-		$data['kawasan'] = $this->model_kawasan->get();
-
-		$this->load->view('template_backoffice/header');
-		$this->load->view('content_backoffice/rt/add_rt', $data);
-		$this->load->view('template_backoffice/footer');
-	}
-
-	public function submit()
-	{
-
-		$this->form_validation->set_rules('rt', 'RT', 'trim|required');
-		// $this->form_validation->set_rules('password', 'Password', 'trim|required|matches[password2]');
-		// $this->form_validation->set_rules('password2', 'Password Confirmation', 'trim|required');
-		
-		$this->form_validation->set_error_delimiters('<h6 class="w-500 alert bg-red">','</h6>');
-
-		if ($this->form_validation->run() == FALSE)
-		{
+		for ($ii=0; $ii < count($data['kecamatan']); $ii++) { 
+		$isi['kawasan'] = $this->model_kawasan->get_kecamatan($data['kecamatan'][$ii]['id_kecamatan']);
+			
+			for ($i=0; $i < count($isi['kawasan']); $i++) { 
+				$isi['kawasan'][$i]['nilai_kawasan'] = $this->get_nilai_kawasan_kecamatan($isi['kawasan'][$i]['id']);
+				$nilai = $nilai +  $isi['kawasan'][$i]['nilai_kawasan']['nilai_total'];
+				//echo $data['kawasan'][$i]['id'];
+			}
+			$nilai = $nilai / count($isi['kawasan']);
+			$data['kecamatan'][$ii]['nilai'] = round($nilai, 2);
+		}
+			
+			unset($isi['kawasan']);
 			$this->load->view('template_backoffice/header');
-			$this->load->view('content_backoffice/rt/add_rt');
+			$this->load->view('content_backoffice/statistik/statistik_kota', $data);
 			$this->load->view('template_backoffice/footer');
-		}
-		else
-		{
-			$object  	= $_POST;
-			$geometry = $_POST['wkt'];
-			$geo['id_kawasan'] = $_POST['id_kawasan'];
-			$geo['id_kecamatan'] = $_POST['id_kec'];
-			$geo['id_kelurahan'] = $_POST['id_kel'];
-			$geo['rt'] = $_POST['rt'];
-			$geo['rw'] = $_POST['rw'];
-
-			$nama['foto_bangunan']= pathinfo($_FILES['foto_bangunan']['name'], PATHINFO_FILENAME);
-			if($nama['foto_bangunan']!=""){
-				$foto_bangunan 	=	$this->model_master->upload_foto('foto_bangunan', $nama['foto_bangunan']);
-				 $object['foto_bangunan']  = substr($foto_bangunan, 0, -4);
-			}
-			$nama['foto_jalan']= pathinfo($_FILES['foto_jalan']['name'], PATHINFO_FILENAME);
-			if($nama['foto_jalan']!=""){
-				$foto_jalan 	=	$this->model_master->upload_foto('foto_jalan', $nama['foto_jalan']);
-				 $object['foto_jalan']  = substr($foto_jalan, 0, -4);
-			}
-				$nama['foto_air_minum']= pathinfo($_FILES['foto_air_minum']['name'], PATHINFO_FILENAME);
-			if($nama['foto_air_minum']!=""){
-				$foto_air_minum 	=	$this->model_master->upload_foto('foto_air_minum', $nama['foto_air_minum']);
-				 $object['foto_air_minum']  = substr($foto_air_minum, 0, -4);
-			}
-			$nama['foto_drainase']= pathinfo($_FILES['foto_drainase']['name'], PATHINFO_FILENAME);
-			if($nama['foto_drainase']!=""){
-				$foto_drainase 			  =	$this->model_master->upload_foto('foto_drainase', $nama['foto_drainase']);
-				$object['foto_drainase']  = substr($foto_drainase, 0, -4);
-			}
-			$nama['foto_sampah']= pathinfo($_FILES['foto_sampah']['name'], PATHINFO_FILENAME);
-			if($nama['foto_sampah']!=""){
-				$foto_sampah 	=	$this->model_master->upload_foto('foto_sampah', $nama['foto_sampah']);
-				 $object['foto_sampah']  = substr($foto_sampah, 0, -4);
-			}
-				$insert = $this->model_hunian->add_geo($geo, $geometry);
-			unset($object['wkt']);
+				// $this->output->set_content_type('application/json')->set_output(json_encode($data));
+	
 		
-			$insert = $this->model_rt->add($object);
-			if ($insert==true) {
-				redirect('rt');
-			}
-			else{
-				echo "gagal dimasukkan";
-			}
-			
-		}
-
-	}
-
-	public function edit()
-	{
-		$this->form_validation->set_rules('rt', 'RT', 'trim|required');
-		// $this->form_validation->set_rules('password', 'Password', 'trim|required|matches[password2]');
-		// $this->form_validation->set_rules('password2', 'Password Confirmation', 'trim|required');
-		
-		$this->form_validation->set_error_delimiters('<h6 class="w-500 alert bg-red">','</h6>');
-		
-		if ($this->form_validation->run() == FALSE)
-		{
-			$data['rt'] = $this->model_rt->get($this->input->post('id'));
-			$data['kecamatan'] = $this->model_kecamatan->get_kecamatan();
-			$data['kelurahan'] = $this->model_kelurahan->get_kelurahan();
-			$data['kawasan'] = $this->model_kawasan->get();
-			//$this->output->set_content_type('application/json')->set_output(json_encode($data));
-			$this->load->view('template_backoffice/header');
-			$this->load->view('content_backoffice/rt/edit_rt', $data);
-			$this->load->view('template_backoffice/footer');
-		}
-		else
-		{
-			$object  	= $_POST;
-			$geometry = $_POST['wkt'];
-			$geo['id_kecamatan'] = $_POST['id_kec'];
-			$geo['id_kelurahan'] = $_POST['id_kel'];
-			$geo['rt'] = $_POST['rt'];
-			$geo['rw'] = $_POST['rw'];
-				$geo['id_kawasan'] = $_POST['id_kawasan'];
-		
-			$nama['foto_bangunan']= pathinfo($_FILES['foto_bangunan']['name'], PATHINFO_FILENAME);
-			if($nama['foto_bangunan']!=""){
-				$foto_bangunan 	=	$this->model_master->upload_foto('foto_bangunan', $nama['foto_bangunan']);
-				 $object['foto_bangunan']  = substr($foto_bangunan, 0, -4);
-			}
-			$nama['foto_jalan']= pathinfo($_FILES['foto_jalan']['name'], PATHINFO_FILENAME);
-			if($nama['foto_jalan']!=""){
-				$foto_jalan 	=	$this->model_master->upload_foto('foto_jalan', $nama['foto_jalan']);
-				 $object['foto_jalan']  = substr($foto_jalan, 0, -4);
-			}
-				$nama['foto_air_minum']= pathinfo($_FILES['foto_air_minum']['name'], PATHINFO_FILENAME);
-			if($nama['foto_air_minum']!=""){
-				$foto_air_minum 	=	$this->model_master->upload_foto('foto_air_minum', $nama['foto_air_minum']);
-				 $object['foto_air_minum']  = substr($foto_air_minum, 0, -4);
-			}
-			$nama['foto_drainase']= pathinfo($_FILES['foto_drainase']['name'], PATHINFO_FILENAME);
-			if($nama['foto_drainase']!=""){
-				$foto_drainase 			  =	$this->model_master->upload_foto('foto_drainase', $nama['foto_drainase']);
-				$object['foto_drainase']  = substr($foto_drainase, 0, -4);
-			}
-			$nama['foto_sampah']= pathinfo($_FILES['foto_sampah']['name'], PATHINFO_FILENAME);
-			if($nama['foto_sampah']!=""){
-				$foto_sampah 	=	$this->model_master->upload_foto('foto_sampah', $nama['foto_sampah']);
-				 $object['foto_sampah']  = substr($foto_sampah, 0, -4);
-			}
-			$insert = $this->model_hunian->edit_geo($geo, $geometry);	
-			unset($object['wkt']);
-			
-			$update = $this->model_rt->edit($object);
-			if ($update==true) {
-				redirect('rt');
-			}
-			else{
-				echo "gagal dimasukkan";
-			}
-			
-		}
-	}
-
-	public function delete($id)
-	{
-		$this->model_rt->delete($id);
-		redirect('rt');
 	}
 
 	

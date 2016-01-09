@@ -13,6 +13,7 @@
     </div>
     <!-- END PRELOADER -->
     <a href="#" class="scrollup"><i class="fa fa-angle-up"></i></a>
+    <script src="<?php echo base_url(); ?>assets/plugins/step-form-wizard/js/step-form-wizard.js"></script>
     <script src="<?php echo base_url(); ?>assets/plugins/bootstrap/js/bootstrap.min.js"></script>
     <script src="<?php echo base_url(); ?>assets/plugins/jquery-cookies/jquery.cookies.min.js"></script> <!-- Jquery Cookies, for theme -->
     <script src="<?php echo base_url(); ?>assets/plugins/jquery-block-ui/jquery.blockUI.min.js"></script> <!-- simulate synchronous behavior when using AJAX -->

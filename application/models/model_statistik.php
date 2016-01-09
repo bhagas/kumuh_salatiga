@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Model_kawasan extends CI_Model {
+class Model_statistik extends CI_Model {
 
 	public function __construct()
 	{
@@ -14,18 +14,6 @@ class Model_kawasan extends CI_Model {
 		$this->db->where('deleted', 0);
 		if ($id!=false) {
 			$this->db->where('id', $id);
-		}
-		$this->db->from('data_kawasan');
-		$query 	= $this->db->get();
-		$result = $query->result_array();
-		return $result;
-	}
-		public function get_kecamatan($id=false)
-	{
-		$this->db->select('*');
-		$this->db->where('deleted', 0);
-		if ($id!=false) {
-			$this->db->where('id_kecamatan', $id);
 		}
 		$this->db->from('data_kawasan');
 		$query 	= $this->db->get();
